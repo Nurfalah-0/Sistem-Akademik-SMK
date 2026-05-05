@@ -13,7 +13,7 @@
 import { computed } from 'vue'
 
 interface Props {
-  variant?: 'success' | 'warning' | 'danger' | 'info' | 'default'
+  variant?: 'success' | 'warning' | 'danger' | 'info' | 'default' | 'urgent'
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -21,11 +21,12 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const variantClasses = computed(() => {
-  const variants = {
+  const variants: Record<string, string> = {
     success: 'bg-green-100 text-green-800',
     warning: 'bg-yellow-100 text-yellow-800',
     danger: 'bg-red-100 text-red-800',
     info: 'bg-blue-100 text-blue-800',
+    urgent: 'bg-red-100 text-red-800',
     default: 'bg-gray-100 text-gray-800'
   }
   return variants[props.variant]

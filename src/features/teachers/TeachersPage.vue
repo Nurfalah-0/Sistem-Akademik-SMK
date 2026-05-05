@@ -12,20 +12,27 @@
     </div>
 
     <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <Card v-for="teacher in teachers" :key="teacher.id" class="hover:shadow-lg transition">
+      <Card 
+        v-for="teacher in teachers" 
+        :key="teacher.id" 
+        class="hover:shadow-lg transition"
+      >
         <div class="flex-1">
           <h3 class="font-semibold text-gray-900 text-lg">{{ teacher.name }}</h3>
-            <p class="text-sm text-gray-600">{{ teacher.subject }}</p>
-            <p class="text-xs text-gray-500 mt-2">NIP: {{ teacher.nip }}</p>
-            <p class="text-xs text-gray-500">Email: {{ teacher.email }}</p>
-            <p class="text-xs text-gray-500">Telp: {{ teacher.phone }}</p>
-            <div class="mt-3">
-              <p class="text-xs font-medium text-gray-700 mb-1">Mengajar:</p>
-              <div class="flex flex-wrap gap-1">
-                <Badge v-for="kelas in teacher.classes" :key="kelas" variant="info">
-                  {{ kelas }}
-                </Badge>
-              </div>
+          <p class="text-sm text-gray-600">{{ teacher.subject }}</p>
+          <p class="text-xs text-gray-500 mt-2">NIP: {{ teacher.nip }}</p>
+          <p class="text-xs text-gray-500">Email: {{ teacher.email }}</p>
+          <p class="text-xs text-gray-500">Telp: {{ teacher.phone }}</p>
+          <div class="mt-3">
+            <p class="text-xs font-medium text-gray-700 mb-1">Mengajar:</p>
+            <div class="flex flex-wrap gap-1">
+              <Badge 
+                v-for="kelas in teacher.classes" 
+                :key="kelas" 
+                variant="info"
+              >
+                {{ kelas }}
+              </Badge>
             </div>
           </div>
         </div>
@@ -43,3 +50,4 @@ import Badge from '../../components/ui/Badge.vue'
 
 const teachers = ref<Teacher[]>(teachersData.teachers)
 </script>
+
