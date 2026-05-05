@@ -1,8 +1,8 @@
-# 📚 Sistem Akademik SMK - Frontend
+# Sistem Akademik SMK - Frontend
 
 Aplikasi web frontend untuk Sistem Manajemen Akademik Sekolah Menengah Kejuruan (SMK) yang modern, responsif, dan siap diintegrasikan dengan backend API.
 
-## 🎯 Fitur Utama
+## Fitur Utama
 
 - **Authentication**: Login berbasis role (Admin, Guru, Siswa, Orang Tua)
 - **Dashboard**: Ringkasan data, statistik, dan pengumuman terbaru
@@ -14,7 +14,7 @@ Aplikasi web frontend untuk Sistem Manajemen Akademik Sekolah Menengah Kejuruan 
 - **Pengumuman**: Broadcast berita dan pengumuman penting
 - **Chat/Komunikasi**: Interface untuk komunikasi antar pengguna
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Vue.js 3** - Framework JavaScript dengan Composition API
 - **TypeScript** - Type-safe JavaScript
@@ -24,7 +24,7 @@ Aplikasi web frontend untuk Sistem Manajemen Akademik Sekolah Menengah Kejuruan 
 - **Pinia** - State management
 - **Axios** - HTTP client (untuk integrasi API)
 
-## 📋 Struktur Folder
+## Struktur Folder
 
 ```
 src/
@@ -69,7 +69,7 @@ src/
 └── index.css          # Global styles
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prasyarat
 - Node.js >= 16.x
@@ -106,7 +106,7 @@ npm run preview
 | Siswa | siswa@smk.com | siswa123 |
 | Orang Tua | orangtua@smk.com | orangtua123 |
 
-## 🔑 Fitur Detail
+## Fitur Detail
 
 ### 1. Authentication
 - Login dengan email & password
@@ -145,7 +145,7 @@ npm run preview
 - Support: required, minLength, maxLength, pattern, custom rules
 - Real-time error messages
 
-## 🎨 UI/UX Design
+## UI/UX Design
 
 - **Modern & Clean Design**: Minimalist interface dengan Tailwind CSS
 - **Responsive**: Mobile-first approach, works on all screen sizes
@@ -154,7 +154,7 @@ npm run preview
 - **Loading States**: Proper feedback saat loading
 - **Error Handling**: User-friendly error messages
 
-## 🔄 Data Flow
+## Data Flow
 
 ```
 User Input → Component → Store (Pinia) → State → Component Re-render
@@ -164,13 +164,13 @@ User Input → Component → Store (Pinia) → State → Component Re-render
 - Data bersifat temporary (di-reset setiap refresh)
 - Siap untuk integrasi API real
 
-## 📱 Responsive Breakpoints
+## Responsive Breakpoints
 
 - **Mobile**: < 768px
 - **Tablet**: 768px - 1024px
 - **Desktop**: > 1024px
 
-## 🔒 Security Features
+## Security Features
 
 - Password hashing simulasi (untuk demo)
 - Session persistence dengan localStorage
@@ -178,7 +178,7 @@ User Input → Component → Store (Pinia) → State → Component Re-render
 - Type-safe dengan TypeScript strict mode
 - Input validation di client-side
 
-## 🚀 Future Integration Points
+## Future Integration Points
 
 ### Backend API Integration
 ```typescript
@@ -198,7 +198,7 @@ import { useWebSocket } from 'vue-use-websocket'
 // Gunakan localStorage plugins atau backend database
 ```
 
-## 📚 Component Examples
+## Component Examples
 
 ### Button Component
 ```vue
@@ -215,7 +215,7 @@ const { errors, validateForm } = useFormValidation({
 })
 ```
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Port sudah terpakai?
 ```bash
@@ -241,15 +241,15 @@ npm run build -- --force
 - [Pinia Store](https://pinia.vuejs.org/)
 - [Vite Docs](https://vitejs.dev/)
 
-## 📄 License
+## License
 
 MIT License - Feel free to use this project for any purpose.
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## ✨ Tips
+## Tips
 
 1. **Component Reusability**: Gunakan UI components untuk consistency
 2. **Type Safety**: Selalu gunakan TypeScript types untuk data
