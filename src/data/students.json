@@ -1,0 +1,64 @@
+{
+  "students": [
+    {
+      "id": "std-001",
+      "name": "Ahmad Rafi",
+      "nisn": "1234567890",
+      "class": "XII-A",
+      "email": "ahmad.rafi@student.smk.com",
+      "phone": "082123456789",
+      "birthDate": "2006-05-15",
+      "address": "Jl. Merdeka No. 123",
+      "parentName": "Bapak Rafi",
+      "parentPhone": "081987654321"
+    },
+    {
+      "id": "std-002",
+      "name": "Siti Nurhaliza",
+      "nisn": "1234567891",
+      "class": "XII-A",
+      "email": "siti.nurhaliza@student.smk.com",
+      "phone": "082223456789",
+      "birthDate": "2006-08-22",
+      "address": "Jl. Sudirman No. 45",
+      "parentName": "Ibu Haliza",
+      "parentPhone": "081887654321"
+    },
+    {
+      "id": "std-003",
+      "name": "Budi Santoso",
+      "nisn": "1234567892",
+      "class": "XI-B",
+      "email": "budi.santoso@student.smk.com",
+      "phone": "082323456789",
+      "birthDate": "2007-03-10",
+      "address": "Jl. Diponegoro No. 78",
+      "parentName": "Bapak Santoso",
+      "parentPhone": "081787654321"
+    },
+    {
+      "id": "std-004",
+      "name": "Dewi Lestari",
+      "nisn": "1234567893",
+      "class": "XI-B",
+      "email": "dewi.lestari@student.smk.com",
+      "phone": "082423456789",
+      "birthDate": "2007-06-28",
+      "address": "Jl. Ahmad Yani No. 102",
+      "parentName": "Ibu Lestari",
+      "parentPhone": "081687654321"
+    },
+    {
+      "id": "std-005",
+      "name": "Eka Prasetya",
+      "nisn": "1234567894",
+      "class": "X-C",
+      "email": "eka.prasetya@student.smk.com",
+      "phone": "082523456789",
+      "birthDate": "2008-01-14",
+      "address": "Jl. Gatot Subroto No. 56",
+      "parentName": "Bapak Prasetya",
+      "parentPhone": "081587654321"
+    }
+  ]
+}

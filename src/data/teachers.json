@@ -1,0 +1,40 @@
+{
+  "teachers": [
+    {
+      "id": "tch-001",
+      "name": "Budi Santoso, S.Pd",
+      "nip": "198512051234567890",
+      "email": "budi.santoso@smk.com",
+      "phone": "081234567890",
+      "subject": "Matematika",
+      "classes": ["XII-A", "XI-B", "X-C"]
+    },
+    {
+      "id": "tch-002",
+      "name": "Siti Rahayu, S.Pd",
+      "nip": "198715062345678901",
+      "email": "siti.rahayu@smk.com",
+      "phone": "081345678901",
+      "subject": "Bahasa Indonesia",
+      "classes": ["XII-A", "XI-B"]
+    },
+    {
+      "id": "tch-003",
+      "name": "Adi Wijaya, S.Kom",
+      "nip": "198923074567890123",
+      "email": "adi.wijaya@smk.com",
+      "phone": "081456789012",
+      "subject": "Teknologi Informasi",
+      "classes": ["X-C", "XI-B", "XII-A"]
+    },
+    {
+      "id": "tch-004",
+      "name": "Dina Kusumawardhani, S.Pd",
+      "nip": "199034085678901234",
+      "email": "dina.kusuma@smk.com",
+      "phone": "081567890123",
+      "subject": "Fisika",
+      "classes": ["XII-A", "X-C"]
+    }
+  ]
+}

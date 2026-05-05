@@ -1,0 +1,44 @@
+{
+  "grades": [
+    {
+      "id": "grd-001",
+      "studentId": "std-001",
+      "studentName": "Ahmad Rafi",
+      "subject": "Matematika",
+      "score": 85,
+      "date": "2026-04-30"
+    },
+    {
+      "id": "grd-002",
+      "studentId": "std-001",
+      "studentName": "Ahmad Rafi",
+      "subject": "Bahasa Indonesia",
+      "score": 78,
+      "date": "2026-04-29"
+    },
+    {
+      "id": "grd-003",
+      "studentId": "std-002",
+      "studentName": "Siti Nurhaliza",
+      "subject": "Matematika",
+      "score": 92,
+      "date": "2026-04-30"
+    },
+    {
+      "id": "grd-004",
+      "studentId": "std-002",
+      "studentName": "Siti Nurhaliza",
+      "subject": "Bahasa Indonesia",
+      "score": 88,
+      "date": "2026-04-29"
+    },
+    {
+      "id": "grd-005",
+      "studentId": "std-003",
+      "studentName": "Budi Santoso",
+      "subject": "Matematika",
+      "score": 76,
+      "date": "2026-04-30"
+    }
+  ]
+}
