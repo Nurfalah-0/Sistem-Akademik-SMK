@@ -2,8 +2,8 @@
   <div class="min-h-screen bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center p-4">
     <Card class="w-full max-w-md">
       <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-gray-800 mb-2">📚 Akademik SMK</h1>
-        <p class="text-gray-600">Sistem Manajemen Akademik Sekolah</p>
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Sistem Akademik</h1>
+        <p class="text-gray-600">Manajemen Akademik Sekolah</p>
       </div>
 
       <!-- Demo Users Info -->

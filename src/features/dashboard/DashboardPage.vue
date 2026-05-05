@@ -3,60 +3,56 @@
     <!-- Header -->
     <div>
       <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
-      <p class="text-gray-600">Selamat datang, {{ authStore.user?.name }}</p>
+      <p class="text-gray-600 mt-1">Selamat datang, {{ authStore.user?.name }}</p>
     </div>
 
     <!-- Stats Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       <!-- Students -->
-      <Card>
+      <Card class="bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200">
         <div class="flex justify-between items-start">
           <div>
-            <p class="text-gray-600 text-sm">Total Siswa</p>
-            <p class="text-3xl font-bold text-gray-900 mt-2">
+            <p class="text-blue-700 text-sm font-medium">Total Siswa</p>
+            <p class="text-3xl font-bold text-blue-900 mt-2">
               {{ dashboardStore.studentsCount }}
             </p>
           </div>
-          <div class="text-4xl">👥</div>
         </div>
       </Card>
 
       <!-- Teachers -->
-      <Card>
+      <Card class="bg-gradient-to-br from-green-50 to-green-100 border border-green-200">
         <div class="flex justify-between items-start">
           <div>
-            <p class="text-gray-600 text-sm">Total Guru</p>
-            <p class="text-3xl font-bold text-gray-900 mt-2">
+            <p class="text-green-700 text-sm font-medium">Total Guru</p>
+            <p class="text-3xl font-bold text-green-900 mt-2">
               {{ dashboardStore.teachersCount }}
             </p>
           </div>
-          <div class="text-4xl">🧑‍🏫</div>
         </div>
       </Card>
 
       <!-- Attendance Today -->
-      <Card>
+      <Card class="bg-gradient-to-br from-emerald-50 to-emerald-100 border border-emerald-200">
         <div class="flex justify-between items-start">
           <div>
-            <p class="text-gray-600 text-sm">Hadir (Hari Ini)</p>
-            <p class="text-3xl font-bold text-green-600 mt-2">
+            <p class="text-emerald-700 text-sm font-medium">Hadir Hari Ini</p>
+            <p class="text-3xl font-bold text-emerald-900 mt-2">
               {{ dashboardStore.attendanceTodayStats.present }}
             </p>
           </div>
-          <div class="text-4xl">✅</div>
         </div>
       </Card>
 
       <!-- Absent Today -->
-      <Card>
+      <Card class="bg-gradient-to-br from-red-50 to-red-100 border border-red-200">
         <div class="flex justify-between items-start">
           <div>
-            <p class="text-gray-600 text-sm">Alfa (Hari Ini)</p>
-            <p class="text-3xl font-bold text-red-600 mt-2">
+            <p class="text-red-700 text-sm font-medium">Alfa Hari Ini</p>
+            <p class="text-3xl font-bold text-red-900 mt-2">
               {{ dashboardStore.attendanceTodayStats.absent }}
             </p>
           </div>
-          <div class="text-4xl">❌</div>
         </div>
       </Card>
     </div>
@@ -64,7 +60,7 @@
     <!-- Announcements Section -->
     <Card>
       <div class="mb-4">
-        <h2 class="text-xl font-semibold text-gray-900">📢 Pengumuman Terbaru</h2>
+        <h2 class="text-xl font-semibold text-gray-900">Pengumuman Terbaru</h2>
       </div>
 
       <div v-if="dashboardStore.latestAnnouncements.length === 0" class="text-center py-8">
@@ -103,35 +99,31 @@
 
     <!-- Quick Actions -->
     <Card>
-      <h2 class="text-xl font-semibold text-gray-900 mb-4">⚡ Akses Cepat</h2>
+      <h2 class="text-xl font-semibold text-gray-900 mb-4">Akses Cepat</h2>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
         <RouterLink
           to="/students"
-          class="p-4 rounded-lg bg-blue-50 hover:bg-blue-100 transition text-center"
+          class="p-4 rounded border border-blue-200 bg-blue-50 hover:bg-blue-100 transition text-center"
         >
-          <div class="text-2xl mb-2">👥</div>
-          <p class="text-sm font-medium text-gray-800">Siswa</p>
+          <p class="text-sm font-medium text-blue-900">Siswa</p>
         </RouterLink>
         <RouterLink
           to="/teachers"
-          class="p-4 rounded-lg bg-green-50 hover:bg-green-100 transition text-center"
+          class="p-4 rounded border border-green-200 bg-green-50 hover:bg-green-100 transition text-center"
         >
-          <div class="text-2xl mb-2">🧑‍🏫</div>
-          <p class="text-sm font-medium text-gray-800">Guru</p>
+          <p class="text-sm font-medium text-green-900">Guru</p>
         </RouterLink>
         <RouterLink
           to="/attendance"
-          class="p-4 rounded-lg bg-yellow-50 hover:bg-yellow-100 transition text-center"
+          class="p-4 rounded border border-orange-200 bg-orange-50 hover:bg-orange-100 transition text-center"
         >
-          <div class="text-2xl mb-2">✋</div>
-          <p class="text-sm font-medium text-gray-800">Absensi</p>
+          <p class="text-sm font-medium text-orange-900">Absensi</p>
         </RouterLink>
         <RouterLink
           to="/announcements"
-          class="p-4 rounded-lg bg-purple-50 hover:bg-purple-100 transition text-center"
+          class="p-4 rounded border border-purple-200 bg-purple-50 hover:bg-purple-100 transition text-center"
         >
-          <div class="text-2xl mb-2">📢</div>
-          <p class="text-sm font-medium text-gray-800">Pengumuman</p>
+          <p class="text-sm font-medium text-purple-900">Pengumuman</p>
         </RouterLink>
       </div>
     </Card>

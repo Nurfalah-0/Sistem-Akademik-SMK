@@ -3,6 +3,11 @@ import { useAuthStore } from '../stores/auth'
 import LoginPage from '../features/auth/LoginPage.vue'
 import DashboardPage from '../features/dashboard/DashboardPage.vue'
 import StudentsPage from '../features/students/StudentsPage.vue'
+import TeachersPage from '../features/teachers/TeachersPage.vue'
+import SchedulePage from '../features/schedule/SchedulePage.vue'
+import AttendancePage from '../features/attendance/AttendancePage.vue'
+import GradesPage from '../features/grades/GradesPage.vue'
+import AnnouncementsPage from '../features/announcements/AnnouncementsPage.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -26,27 +31,27 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/teachers',
-    component: () => import('../features/students/StudentsPage.vue'),
+    component: TeachersPage,
     meta: { requiresAuth: true }
   },
   {
     path: '/schedule',
-    component: () => import('../features/students/StudentsPage.vue'),
+    component: SchedulePage,
     meta: { requiresAuth: true }
   },
   {
     path: '/attendance',
-    component: () => import('../features/students/StudentsPage.vue'),
+    component: AttendancePage,
     meta: { requiresAuth: true }
   },
   {
     path: '/grades',
-    component: () => import('../features/students/StudentsPage.vue'),
+    component: GradesPage,
     meta: { requiresAuth: true }
   },
   {
     path: '/announcements',
-    component: () => import('../features/students/StudentsPage.vue'),
+    component: AnnouncementsPage,
     meta: { requiresAuth: true }
   }
 ]

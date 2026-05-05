@@ -4,10 +4,10 @@
     <div class="flex justify-between items-center flex-col md:flex-row gap-4">
       <div>
         <h1 class="text-3xl font-bold text-gray-900">Daftar Siswa</h1>
-        <p class="text-gray-600">Total: {{ studentStore.filteredStudents.length }} siswa</p>
+        <p class="text-gray-600 mt-1">Total: {{ studentStore.filteredStudents.length }} siswa</p>
       </div>
       <Button variant="primary" @click="openAddModal">
-        ➕ Tambah Siswa
+        Tambah Siswa
       </Button>
     </div>
 
