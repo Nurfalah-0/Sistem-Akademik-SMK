@@ -4,7 +4,8 @@
       <!-- Logo/Header -->
       <div class="text-center mb-8">
         <div class="inline-block bg-white/20 backdrop-blur-md rounded-2xl p-4 mb-4">
-          <span class="text-4xl">🎓</span>
+          <span class="text-4xl"></span>
+            <img src="/src/assets/download (2).jpg" alt="Logo" class="h-16 w-16 mx-auto">
         </div>
         <h1 class="text-3xl font-bold text-white mb-2">Sistem Akademik</h1>
         <p class="text-blue-100">Manajemen Akademik SMK</p>
