@@ -16,14 +16,14 @@
           <input
             v-model="selectedDate"
             type="date"
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all hover:border-gray-400"
           />
         </div>
         <div class="flex-1">
           <label class="block text-sm font-medium text-gray-700 mb-2">Kelas</label>
           <select
             v-model="selectedClass"
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all hover:border-gray-400"
           >
             <option value="">Semua Kelas</option>
             <option value="XII-A">XII-A</option>
@@ -31,8 +31,8 @@
             <option value="X-C">X-C</option>
           </select>
         </div>
-        <Button variant="primary" @click="saveAttendance">
-          💾 Simpan
+        <Button variant="primary" @click="saveAttendance" class="mt-6">
+          Simpan
         </Button>
       </div>
     </Card>
@@ -61,11 +61,11 @@
                 <select
                   :value="getAttendanceStatus(student.id)"
                   @change="setAttendanceStatus(student.id, $event.target.value as any)"
-                  class="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  class="px-3 py-1.5 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400 transition-all"
                 >
-                  <option value="hadir">✅ Hadir</option>
-                  <option value="izin">📝 Izin</option>
-                  <option value="alfa">❌ Alfa</option>
+                  <option value="hadir">Hadir</option>
+                  <option value="izin">Izin</option>
+                  <option value="alfa">Alfa</option>
                 </select>
               </td>
               <td class="px-6 py-4 text-center">
@@ -74,7 +74,7 @@
                   @input="setAttendanceNote(student.id, ($event.target as HTMLInputElement).value)"
                   type="text"
                   placeholder="Keterangan"
-                  class="w-32 px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  class="w-32 px-3 py-1.5 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400 transition-all"
                 />
               </td>
             </tr>
@@ -159,6 +159,6 @@ const setAttendanceNote = (studentId: string, note: string) => {
 }
 
 const saveAttendance = () => {
-  alert(`✅ Absensi untuk tanggal ${selectedDate.value} berhasil disimpan!`)
+  alert(`Absensi untuk tanggal ${selectedDate.value} berhasil disimpan!`)
 }
 </script>

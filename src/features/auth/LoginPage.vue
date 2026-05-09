@@ -1,59 +1,67 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center p-4">
-    <Card class="w-full max-w-md">
+  <div class="min-h-screen bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center p-4">
+    <div class="w-full max-w-md">
+      <!-- Logo/Header -->
       <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-gray-800 mb-2">Sistem Akademik</h1>
-        <p class="text-gray-600">Manajemen Akademik Sekolah</p>
+        <div class="inline-block bg-white/20 backdrop-blur-md rounded-2xl p-4 mb-4">
+          <span class="text-4xl">🎓</span>
+        </div>
+        <h1 class="text-3xl font-bold text-white mb-2">Sistem Akademik</h1>
+        <p class="text-blue-100">Manajemen Akademik SMK</p>
       </div>
 
-      <!-- Demo Users Info -->
-      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-        <p class="text-sm font-semibold text-blue-800 mb-2">Demo Credentials:</p>
-        <div class="space-y-1 text-xs text-blue-700">
-          <p>Admin: admin@smk.com / admin123</p>
-          <p>Guru: guru@smk.com / guru123</p>
-          <p>Siswa: siswa@smk.com / siswa123</p>
-          <p>Orang Tua: orangtua@smk.com / orangtua123</p>
-        </div>
-      </div>
-
-      <form @submit.prevent="handleLogin" class="space-y-4">
-        <Input
-          v-model="form.email"
-          type="email"
-          label="Email"
-          placeholder="admin@smk.com"
-          :error="errors.email"
-          required
-        />
-
-        <Input
-          v-model="form.password"
-          type="password"
-          label="Password"
-          placeholder="••••••••"
-          :error="errors.password"
-          required
-        />
-
-        <div v-if="authStore.error" class="p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
-          {{ authStore.error }}
+      <!-- Login Card -->
+      <Card class="shadow-2xl">
+        <!-- Demo Info -->
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+          <p class="text-xs font-semibold text-blue-900 mb-2">Demo Akun:</p>
+          <div class="space-y-1 text-xs text-blue-800">
+            <p>Admin: admin@smk.com / admin123</p>
+            <p>Guru: guru@smk.com / guru123</p>
+            <p>Siswa: siswa@smk.com / siswa123</p>
+            <p>Orang Tua: orangtua@smk.com / orangtua123</p>
+          </div>
         </div>
 
-        <Button
-          type="submit"
-          variant="primary"
-          :disabled="authStore.loading"
-          class="w-full"
-        >
-          {{ authStore.loading ? 'Loading...' : 'Login' }}
-        </Button>
-      </form>
+        <!-- Form -->
+        <form @submit.prevent="handleLogin" class="space-y-4">
+          <Input
+            v-model="form.email"
+            type="email"
+            label="Email"
+            placeholder="admin@smk.com"
+            :error="errors.email"
+            required
+          />
 
-      <p class="text-center text-sm text-gray-600 mt-6">
-        Sistem Akademik Frontend Demo
-      </p>
-    </Card>
+          <Input
+            v-model="form.password"
+            type="password"
+            label="Password"
+            placeholder="••••••••"
+            :error="errors.password"
+            required
+          />
+
+          <div v-if="authStore.error" class="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm font-medium">
+            {{ authStore.error }}
+          </div>
+
+          <Button
+            type="submit"
+            variant="primary"
+            :disabled="authStore.loading"
+            class="w-full"
+          >
+            {{ authStore.loading ? 'Memproses...' : 'Masuk' }}
+          </Button>
+        </form>
+
+        <p class="text-center text-sm text-gray-500 mt-6">
+          Sistem Akademik Frontend Demo
+        </p>
+      </Card>
+    </div>
   </div>
 </template>
 

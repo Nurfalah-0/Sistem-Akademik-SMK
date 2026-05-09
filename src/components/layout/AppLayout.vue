@@ -1,9 +1,9 @@
 <template>
   <div class="flex h-screen bg-gray-50">
     <!-- Sidebar -->
-    <aside class="w-64 bg-slate-900 text-white hidden md:flex flex-col">
-      <div class="p-6 border-b border-slate-700">
-        <h1 class="text-xl font-bold tracking-tight">Sistem Akademik</h1>
+    <aside class="w-64 bg-white border-r border-gray-200 text-gray-900 hidden md:flex flex-col shadow-sm">
+      <div class="p-6 border-b border-gray-200">
+        <h1 class="text-xl font-bold text-gray-900 tracking-tight">Akademik SMK</h1>
       </div>
 
       <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
@@ -11,19 +11,22 @@
           v-for="item in navigationItems"
           :key="item.path"
           :to="item.path"
-          class="block px-4 py-2 rounded text-sm hover:bg-slate-800 transition"
-          :class="{ 'bg-blue-600 text-white': isActive(item.path), 'text-slate-300': !isActive(item.path) }"
+          class="block px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200"
+          :class="{ 
+            'bg-blue-100 text-blue-700': isActive(item.path), 
+            'text-gray-700 hover:bg-gray-100': !isActive(item.path) 
+          }"
         >
           {{ item.label }}
         </RouterLink>
       </nav>
 
-      <div class="p-4 border-t border-slate-700">
-        <div class="flex items-center gap-3 mb-4">
-          <img :src="authStore.user?.avatar" :alt="authStore.user?.name" class="w-10 h-10 rounded-full" />
-          <div class="min-w-0">
-            <p class="text-sm font-medium truncate">{{ authStore.user?.name }}</p>
-            <p class="text-xs text-slate-400 capitalize">{{ authStore.user?.role }}</p>
+      <div class="p-4 border-t border-gray-200">
+        <div class="flex items-center gap-3 mb-4 p-3 rounded-lg bg-gray-50">
+          <img :src="authStore.user?.avatar" :alt="authStore.user?.name" class="w-10 h-10 rounded-full object-cover" />
+          <div class="min-w-0 flex-1">
+            <p class="text-sm font-medium text-gray-900 truncate">{{ authStore.user?.name }}</p>
+            <p class="text-xs text-gray-500 capitalize">{{ authStore.user?.role }}</p>
           </div>
         </div>
         <Button variant="secondary" size="sm" class="w-full" @click="handleLogout">
@@ -35,9 +38,9 @@
     <!-- Main Content -->
     <main class="flex-1 flex flex-col overflow-hidden">
       <!-- Top Bar -->
-      <header class="bg-white border-b px-6 py-4 flex justify-between items-center md:hidden">
-        <h1 class="text-lg font-bold">Akademik</h1>
-        <button class="text-gray-600">☰</button>
+      <header class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center md:hidden shadow-sm">
+        <h1 class="text-lg font-bold text-gray-900">Akademik</h1>
+        <button class="text-gray-700">☰</button>
       </header>
 
       <!-- Page Content -->

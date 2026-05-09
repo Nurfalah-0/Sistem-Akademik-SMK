@@ -11,17 +11,18 @@
       :placeholder="placeholder"
       :disabled="disabled"
       :class="[
-        'w-full px-3 py-2 border rounded-lg',
-        'focus:outline-none focus:ring-2 focus:ring-blue-500',
+        'w-full px-4 py-2.5 border rounded-lg text-gray-900 placeholder-gray-400',
+        'transition-all duration-200',
+        'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
         {
           'border-red-500 focus:ring-red-500': error,
-          'border-gray-300': !error,
+          'border-gray-300 hover:border-gray-400': !error,
           'bg-gray-50 cursor-not-allowed': disabled
         }
       ]"
       @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     />
-    <p v-if="error" class="mt-1 text-sm text-red-500">{{ error }}</p>
+    <p v-if="error" class="mt-1.5 text-sm text-red-600 font-medium">{{ error }}</p>
   </div>
 </template>
 

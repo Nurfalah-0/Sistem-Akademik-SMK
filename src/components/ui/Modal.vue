@@ -3,15 +3,15 @@
     <Transition name="modal">
       <div
         v-if="isOpen"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
         @click.self="emit('close')"
       >
-        <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4 max-h-96 overflow-y-auto">
+        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 max-h-[80vh] overflow-y-auto">
           <!-- Header -->
-          <div class="flex justify-between items-center p-6 border-b">
-            <h2 class="text-xl font-semibold">{{ title }}</h2>
+          <div class="flex justify-between items-center p-6 border-b border-gray-100">
+            <h2 class="text-lg font-semibold text-gray-900">{{ title }}</h2>
             <button
-              class="text-gray-500 hover:text-gray-700"
+              class="text-gray-400 hover:text-gray-600 transition-colors"
               @click="emit('close')"
             >
               ✕
@@ -24,9 +24,9 @@
           </div>
 
           <!-- Footer -->
-          <div class="flex justify-end gap-3 p-6 border-t">
+          <div class="flex justify-end gap-3 p-6 border-t border-gray-100 bg-gray-50 rounded-b-xl">
             <Button variant="secondary" size="sm" @click="emit('close')">
-              Cancel
+              Batal
             </Button>
             <Button variant="primary" size="sm" @click="emit('confirm')">
               {{ confirmText }}
@@ -61,7 +61,7 @@ const emit = defineEmits<{
 <style scoped>
 .modal-enter-active,
 .modal-leave-active {
-  transition: opacity 0.3s ease;
+  transition: opacity 0.2s ease;
 }
 
 .modal-enter-from,

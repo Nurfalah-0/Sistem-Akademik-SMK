@@ -1,7 +1,7 @@
 <template>
   <button
     :class="[
-      'px-4 py-2 rounded-lg font-medium transition-colors',
+      'px-4 py-2 rounded-lg font-medium transition-all duration-200 active:scale-95',
       variantClasses,
       sizeClasses,
       { 'opacity-50 cursor-not-allowed': disabled }
@@ -32,17 +32,17 @@ const props = withDefaults(defineProps<Props>(), {
 
 const variantClasses = computed(() => {
   const variants = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700',
-    secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300',
-    danger: 'bg-red-600 text-white hover:bg-red-700',
-    success: 'bg-green-600 text-white hover:bg-green-700'
+    primary: 'bg-blue-600 text-white hover:bg-blue-700 shadow-sm hover:shadow-md',
+    secondary: 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200',
+    danger: 'bg-red-600 text-white hover:bg-red-700 shadow-sm hover:shadow-md',
+    success: 'bg-green-600 text-white hover:bg-green-700 shadow-sm hover:shadow-md'
   }
   return variants[props.variant]
 })
 
 const sizeClasses = computed(() => {
   const sizes = {
-    sm: 'px-2 py-1 text-sm',
+    sm: 'px-3 py-1.5 text-sm',
     md: 'px-4 py-2 text-base',
     lg: 'px-6 py-3 text-lg'
   }

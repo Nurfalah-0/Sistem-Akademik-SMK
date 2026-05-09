@@ -14,7 +14,7 @@
           <select
             v-model="selectedClass"
             @change="filterGrades"
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all hover:border-gray-400"
           >
             <option value="">Semua Kelas</option>
             <option value="XII-A">XII-A</option>
@@ -27,7 +27,7 @@
           <select
             v-model="selectedSubject"
             @change="filterGrades"
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all hover:border-gray-400"
           >
             <option value="">Semua Mapel</option>
             <option value="Matematika">Matematika</option>
@@ -83,27 +83,27 @@
 
     <!-- Grade Distribution Chart -->
     <Card>
-      <h2 class="text-xl font-semibold text-gray-900 mb-4">📊 Distribusi Nilai</h2>
+      <h2 class="text-lg font-semibold text-gray-900 mb-5">Distribusi Nilai</h2>
       <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-        <div class="text-center">
-          <p class="text-3xl font-bold text-green-600">{{ gradeDistribution.A }}</p>
-          <p class="text-sm text-gray-600 mt-1">A (90-100)</p>
+        <div class="text-center p-4 bg-gray-50 rounded-lg">
+          <p class="text-2xl font-bold text-green-600">{{ gradeDistribution.A }}</p>
+          <p class="text-xs font-medium text-gray-600 mt-2">A (90-100)</p>
         </div>
-        <div class="text-center">
-          <p class="text-3xl font-bold text-blue-600">{{ gradeDistribution.B }}</p>
-          <p class="text-sm text-gray-600 mt-1">B (80-89)</p>
+        <div class="text-center p-4 bg-gray-50 rounded-lg">
+          <p class="text-2xl font-bold text-blue-600">{{ gradeDistribution.B }}</p>
+          <p class="text-xs font-medium text-gray-600 mt-2">B (80-89)</p>
         </div>
-        <div class="text-center">
-          <p class="text-3xl font-bold text-yellow-600">{{ gradeDistribution.C }}</p>
-          <p class="text-sm text-gray-600 mt-1">C (70-79)</p>
+        <div class="text-center p-4 bg-gray-50 rounded-lg">
+          <p class="text-2xl font-bold text-yellow-600">{{ gradeDistribution.C }}</p>
+          <p class="text-xs font-medium text-gray-600 mt-2">C (70-79)</p>
         </div>
-        <div class="text-center">
-          <p class="text-3xl font-bold text-orange-600">{{ gradeDistribution.D }}</p>
-          <p class="text-sm text-gray-600 mt-1">D (60-69)</p>
+        <div class="text-center p-4 bg-gray-50 rounded-lg">
+          <p class="text-2xl font-bold text-orange-600">{{ gradeDistribution.D }}</p>
+          <p class="text-xs font-medium text-gray-600 mt-2">D (60-69)</p>
         </div>
-        <div class="text-center">
-          <p class="text-3xl font-bold text-red-600">{{ gradeDistribution.E }}</p>
-          <p class="text-sm text-gray-600 mt-1">E (<60)</p>
+        <div class="text-center p-4 bg-gray-50 rounded-lg">
+          <p class="text-2xl font-bold text-red-600">{{ gradeDistribution.E }}</p>
+          <p class="text-xs font-medium text-gray-600 mt-2">E (<60)</p>
         </div>
       </div>
     </Card>

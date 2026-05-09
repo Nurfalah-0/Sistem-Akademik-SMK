@@ -37,10 +37,10 @@
 
     <!-- Announcements List -->
     <div v-else class="space-y-4">
-      <Card
+      <div
         v-for="announcement in filteredAnnouncements"
         :key="announcement.id"
-        class="border-l-4 hover:shadow-lg transition"
+        class="bg-white rounded-lg p-6 border-l-4 shadow-sm hover:shadow-md transition-all"
         :class="{
           'border-red-500': announcement.category === 'urgent',
           'border-yellow-500': announcement.category === 'warning',
@@ -48,16 +48,16 @@
         }"
       >
         <div class="flex justify-between items-start mb-3">
-          <div>
+          <div class="flex-1">
             <div class="flex items-center gap-3 mb-2">
-              <h2 class="text-xl font-semibold text-gray-900">{{ announcement.title }}</h2>
+              <h2 class="text-lg font-semibold text-gray-900">{{ announcement.title }}</h2>
               <Badge :variant="announcement.category">
                 {{ announcement.category.toUpperCase() }}
               </Badge>
             </div>
-            <p class="text-gray-600">{{ announcement.content }}</p>
+            <p class="text-gray-700">{{ announcement.content }}</p>
           </div>
-          <div v-if="authStore.hasRole(['admin', 'guru'])" class="flex gap-2">
+          <div v-if="authStore.hasRole(['admin', 'guru'])" class="flex gap-2 ml-4">
             <Button size="sm" variant="secondary" @click="editAnnouncement(announcement)">
               Edit
             </Button>
@@ -67,12 +67,12 @@
           </div>
         </div>
 
-        <div class="flex items-center gap-4 text-sm text-gray-500 pt-3 border-t">
-          <span>👤 {{ announcement.author }}</span>
-          <span>📅 {{ formatDate(announcement.createdAt) }}</span>
-          <span>🕐 {{ formatTime(announcement.createdAt) }}</span>
+        <div class="flex items-center gap-4 text-xs text-gray-500 pt-3 border-t border-gray-100">
+          <span>{{ announcement.author }}</span>
+          <span>{{ formatDate(announcement.createdAt) }}</span>
+          <span>{{ formatTime(announcement.createdAt) }}</span>
         </div>
-      </Card>
+      </div>
     </div>
 
     <!-- Add/Edit Modal -->
@@ -117,9 +117,9 @@
             v-model="formData.category"
             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="info">ℹ️ Info</option>
-            <option value="warning">⚠️ Warning</option>
-            <option value="urgent">🔴 Urgent</option>
+            <option value="info">Info</option>
+            <option value="warning">Peringatan</option>
+            <option value="urgent">Urgent</option>
           </select>
         </div>
       </div>
@@ -171,9 +171,9 @@ const filteredAnnouncements = computed(() => {
 
 const getCategoryLabel = (cat: string) => {
   const labels: Record<string, string> = {
-    info: 'ℹ️ Info',
-    warning: '⚠️ Peringatan',
-    urgent: '🔴 Urgent'
+    info: 'Info',
+    warning: 'Peringatan',
+    urgent: 'Urgent'
   }
   return labels[cat] || cat
 }

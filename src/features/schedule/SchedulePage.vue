@@ -9,7 +9,7 @@
     <!-- Schedule by Classes -->
     <div class="space-y-6">
       <Card>
-        <h2 class="text-xl font-semibold text-gray-900 mb-4">Jadwal Kelas XII-A</h2>
+        <h2 class="text-lg font-semibold text-gray-900 mb-5">Jadwal Kelas XII-A</h2>
         <div class="overflow-x-auto">
           <table class="w-full text-sm">
             <thead class="bg-gray-50 border-b">
@@ -33,7 +33,7 @@
       </Card>
 
       <Card>
-        <h2 class="text-xl font-semibold text-gray-900 mb-4">Jadwal Kelas XI-B</h2>
+        <h2 class="text-lg font-semibold text-gray-900 mb-5">Jadwal Kelas XI-B</h2>
         <div class="overflow-x-auto">
           <table class="w-full text-sm">
             <thead class="bg-gray-50 border-b">
@@ -57,7 +57,7 @@
       </Card>
 
       <Card>
-        <h2 class="text-xl font-semibold text-gray-900 mb-4">Jadwal Kelas X-C</h2>
+        <h2 class="text-lg font-semibold text-gray-900 mb-5">Jadwal Kelas X-C</h2>
         <div class="overflow-x-auto">
           <table class="w-full text-sm">
             <thead class="bg-gray-50 border-b">

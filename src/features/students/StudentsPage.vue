@@ -28,7 +28,7 @@
           <select
             :value="studentStore.classFilter"
             @change="studentStore.setClassFilter($event.target.value as any)"
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all hover:border-gray-400"
           >
             <option value="">Semua Kelas</option>
             <option v-for="kelas in studentStore.classes" :key="kelas" :value="kelas">

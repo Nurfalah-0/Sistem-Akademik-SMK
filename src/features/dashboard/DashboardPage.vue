@@ -7,54 +7,66 @@
     </div>
 
     <!-- Stats Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
       <!-- Students -->
-      <Card class="bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200">
-        <div class="flex justify-between items-start">
+      <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between">
           <div>
-            <p class="text-blue-700 text-sm font-medium">Total Siswa</p>
-            <p class="text-3xl font-bold text-blue-900 mt-2">
+            <p class="text-gray-600 text-sm font-medium">Total Siswa</p>
+            <p class="text-3xl font-bold text-gray-900 mt-3">
               {{ dashboardStore.studentsCount }}
             </p>
           </div>
+          <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+            <span class="text-blue-600 text-xl">👥</span>
+          </div>
         </div>
-      </Card>
+      </div>
 
       <!-- Teachers -->
-      <Card class="bg-gradient-to-br from-green-50 to-green-100 border border-green-200">
-        <div class="flex justify-between items-start">
+      <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between">
           <div>
-            <p class="text-green-700 text-sm font-medium">Total Guru</p>
-            <p class="text-3xl font-bold text-green-900 mt-2">
+            <p class="text-gray-600 text-sm font-medium">Total Guru</p>
+            <p class="text-3xl font-bold text-gray-900 mt-3">
               {{ dashboardStore.teachersCount }}
             </p>
           </div>
+          <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+            <span class="text-green-600 text-xl">👨‍🏫</span>
+          </div>
         </div>
-      </Card>
+      </div>
 
       <!-- Attendance Today -->
-      <Card class="bg-gradient-to-br from-emerald-50 to-emerald-100 border border-emerald-200">
-        <div class="flex justify-between items-start">
+      <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between">
           <div>
-            <p class="text-emerald-700 text-sm font-medium">Hadir Hari Ini</p>
-            <p class="text-3xl font-bold text-emerald-900 mt-2">
+            <p class="text-gray-600 text-sm font-medium">Hadir Hari Ini</p>
+            <p class="text-3xl font-bold text-gray-900 mt-3">
               {{ dashboardStore.attendanceTodayStats.present }}
             </p>
           </div>
+          <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center">
+            <span class="text-emerald-600 text-xl">✓</span>
+          </div>
         </div>
-      </Card>
+      </div>
 
       <!-- Absent Today -->
-      <Card class="bg-gradient-to-br from-red-50 to-red-100 border border-red-200">
-        <div class="flex justify-between items-start">
+      <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between">
           <div>
-            <p class="text-red-700 text-sm font-medium">Alfa Hari Ini</p>
-            <p class="text-3xl font-bold text-red-900 mt-2">
+            <p class="text-gray-600 text-sm font-medium">Alfa Hari Ini</p>
+            <p class="text-3xl font-bold text-gray-900 mt-3">
               {{ dashboardStore.attendanceTodayStats.absent }}
             </p>
           </div>
+          <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+            <span class="text-red-600 text-xl">—</span>
+          </div>
         </div>
-      </Card>
+      </div>
     </div>
 
     <!-- Announcements Section -->
@@ -99,31 +111,35 @@
 
     <!-- Quick Actions -->
     <Card>
-      <h2 class="text-xl font-semibold text-gray-900 mb-4">Akses Cepat</h2>
+      <h2 class="text-xl font-semibold text-gray-900 mb-5">Akses Cepat</h2>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
         <RouterLink
           to="/students"
-          class="p-4 rounded border border-blue-200 bg-blue-50 hover:bg-blue-100 transition text-center"
+          class="p-4 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 transition text-center group"
         >
-          <p class="text-sm font-medium text-blue-900">Siswa</p>
+          <p class="text-xl mb-2">👥</p>
+          <p class="text-sm font-medium text-gray-900 group-hover:text-blue-600">Siswa</p>
         </RouterLink>
         <RouterLink
           to="/teachers"
-          class="p-4 rounded border border-green-200 bg-green-50 hover:bg-green-100 transition text-center"
+          class="p-4 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 transition text-center group"
         >
-          <p class="text-sm font-medium text-green-900">Guru</p>
+          <p class="text-xl mb-2">👨‍🏫</p>
+          <p class="text-sm font-medium text-gray-900 group-hover:text-green-600">Guru</p>
         </RouterLink>
         <RouterLink
           to="/attendance"
-          class="p-4 rounded border border-orange-200 bg-orange-50 hover:bg-orange-100 transition text-center"
+          class="p-4 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 transition text-center group"
         >
-          <p class="text-sm font-medium text-orange-900">Absensi</p>
+          <p class="text-xl mb-2">📋</p>
+          <p class="text-sm font-medium text-gray-900 group-hover:text-orange-600">Absensi</p>
         </RouterLink>
         <RouterLink
-          to="/announcements"
-          class="p-4 rounded border border-purple-200 bg-purple-50 hover:bg-purple-100 transition text-center"
+          to="/grades"
+          class="p-4 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 transition text-center group"
         >
-          <p class="text-sm font-medium text-purple-900">Pengumuman</p>
+          <p class="text-xl mb-2">📊</p>
+          <p class="text-sm font-medium text-gray-900 group-hover:text-purple-600">Nilai</p>
         </RouterLink>
       </div>
     </Card>

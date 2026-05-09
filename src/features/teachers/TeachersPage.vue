@@ -11,32 +11,32 @@
       <p class="text-gray-500 text-lg">Tidak ada data guru</p>
     </div>
 
-    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <Card 
-        v-for="teacher in teachers" 
-        :key="teacher.id" 
-        class="hover:shadow-lg transition"
+    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div
+        v-for="teacher in teachers"
+        :key="teacher.id"
+        class="bg-white rounded-lg shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all"
       >
-        <div class="flex-1">
-          <h3 class="font-semibold text-gray-900 text-lg">{{ teacher.name }}</h3>
-          <p class="text-sm text-gray-600">{{ teacher.subject }}</p>
-          <p class="text-xs text-gray-500 mt-2">NIP: {{ teacher.nip }}</p>
-          <p class="text-xs text-gray-500">Email: {{ teacher.email }}</p>
-          <p class="text-xs text-gray-500">Telp: {{ teacher.phone }}</p>
-          <div class="mt-3">
-            <p class="text-xs font-medium text-gray-700 mb-1">Mengajar:</p>
-            <div class="flex flex-wrap gap-1">
-              <Badge 
-                v-for="kelas in teacher.classes" 
-                :key="kelas" 
-                variant="info"
-              >
-                {{ kelas }}
-              </Badge>
-            </div>
+        <h3 class="font-semibold text-gray-900 text-lg mb-1">{{ teacher.name }}</h3>
+        <p class="text-sm text-gray-600 mb-3">{{ teacher.subject }}</p>
+        <div class="space-y-2 text-sm text-gray-600 border-t pt-3">
+          <p>NIP: {{ teacher.nip }}</p>
+          <p>Email: {{ teacher.email }}</p>
+          <p>Telp: {{ teacher.phone }}</p>
+        </div>
+        <div class="mt-4">
+          <p class="text-xs font-semibold text-gray-700 mb-2">Mengajar:</p>
+          <div class="flex flex-wrap gap-1.5">
+            <Badge
+              v-for="kelas in teacher.classes"
+              :key="kelas"
+              variant="info"
+            >
+              {{ kelas }}
+            </Badge>
           </div>
         </div>
-      </Card>
+      </div>
     </div>
   </div>
 </template>

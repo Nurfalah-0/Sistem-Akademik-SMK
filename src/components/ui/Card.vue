@@ -1,5 +1,5 @@
 <template>
-  <div :class="['rounded-lg shadow-md p-6 bg-white', classOverride]">
+  <div :class="['rounded-lg p-6 bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow', classOverride]">
     <slot />
   </div>
 </template>
