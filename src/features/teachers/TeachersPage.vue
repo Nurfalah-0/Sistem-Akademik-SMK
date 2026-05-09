@@ -45,7 +45,7 @@
 import { ref } from 'vue'
 import type { Teacher } from '../../types'
 import teachersData from '../../data/teachers.json'
-import Card from '../../components/ui/Card.vue'
+
 import Badge from '../../components/ui/Badge.vue'
 
 const teachers = ref<Teacher[]>(teachersData.teachers)

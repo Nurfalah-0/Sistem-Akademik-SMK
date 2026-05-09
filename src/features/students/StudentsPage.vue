@@ -19,7 +19,7 @@
           type="text"
           label="Cari Siswa"
           placeholder="Nama, NISN, atau Email"
-          @update:model-value="studentStore.setSearch"
+          @update:model-value="(val) => studentStore.setSearch(String(val))"
         />
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">
@@ -27,7 +27,7 @@
           </label>
           <select
             :value="studentStore.classFilter"
-            @change="studentStore.setClassFilter($event.target.value as any)"
+            @change="studentStore.setClassFilter(($event.target as HTMLSelectElement).value as any)"
             class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all hover:border-gray-400"
           >
             <option value="">Semua Kelas</option>

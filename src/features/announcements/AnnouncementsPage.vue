@@ -140,7 +140,7 @@ import Input from '../../components/ui/Input.vue'
 import Modal from '../../components/ui/Modal.vue'
 
 const authStore = useAuthStore()
-const announcements = ref<Announcement[]>(announcementsData.announcements)
+const announcements = ref<Announcement[]>(announcementsData.announcements as Announcement[])
 const showModal = ref(false)
 const editingAnnouncement = ref<Announcement | null>(null)
 const selectedCategory = ref('')
