@@ -84,11 +84,26 @@ cd "d:\Sistem Akademik SMK"
 # Install dependencies
 npm install
 
+# Setup Environment Variables
+# Buat file .env dari .env.example
+cp .env.example .env
+
 # Jalankan development server
 npm run dev
 ```
 
 Aplikasi akan membuka di `http://localhost:5173`
+
+### 🔧 Environment Variables
+
+Buat file `.env` di root directory dengan mengcopy dari `.env.example`:
+
+```env
+VITE_API_BASE_URL=http://localhost:3000/api
+VITE_APP_NAME=Sistem Akademik SMK
+```
+
+**PENTING**: File `.env` tidak boleh di-commit ke Git (sudah ada di `.gitignore`)
 
 ### Build untuk Production
 
