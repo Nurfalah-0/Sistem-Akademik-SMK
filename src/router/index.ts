@@ -22,37 +22,37 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/dashboard',
     component: DashboardPage,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, roles: ['admin', 'guru', 'siswa', 'orangtua'] }
   },
   {
     path: '/students',
     component: StudentsPage,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, roles: ['admin', 'guru', 'orangtua'] }
   },
   {
     path: '/teachers',
     component: TeachersPage,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, roles: ['admin'] }
   },
   {
     path: '/schedule',
     component: SchedulePage,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, roles: ['admin', 'guru', 'siswa', 'orangtua'] }
   },
   {
     path: '/attendance',
     component: AttendancePage,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, roles: ['admin', 'guru', 'siswa', 'orangtua'] }
   },
   {
     path: '/grades',
     component: GradesPage,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, roles: ['admin', 'guru', 'siswa', 'orangtua'] }
   },
   {
     path: '/announcements',
     component: AnnouncementsPage,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, roles: ['admin', 'guru', 'siswa', 'orangtua'] }
   }
 ]
 
@@ -72,6 +72,8 @@ router.beforeEach((to, _from, next) => {
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next('/login')
   } else if (to.path === '/login' && authStore.isAuthenticated) {
+    next('/dashboard')
+  } else if (to.meta.roles && !((to.meta.roles as string[]).includes(authStore.user?.role || ''))) {
     next('/dashboard')
   } else {
     next()

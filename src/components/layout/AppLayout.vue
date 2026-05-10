@@ -53,6 +53,7 @@
 
 <script setup lang="ts">
 
+import { computed } from 'vue'
 import { RouterView, RouterLink, useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '../../stores/auth'
 import Button from '../ui/Button.vue'
@@ -61,15 +62,20 @@ const authStore = useAuthStore()
 const route = useRoute()
 const router = useRouter()
 
-const navigationItems = [
-  { label: 'Dashboard', path: '/dashboard' },
-  { label: 'Siswa', path: '/students' },
-  { label: 'Guru', path: '/teachers' },
-  { label: 'Jadwal', path: '/schedule' },
-  { label: 'Absensi', path: '/attendance' },
-  { label: 'Nilai', path: '/grades' },
-  { label: 'Pengumuman', path: '/announcements' }
+const navigationConfig = [
+  { label: 'Dashboard', path: '/dashboard', roles: ['admin', 'guru', 'siswa', 'orangtua'] },
+  { label: 'Siswa', path: '/students', roles: ['admin', 'guru', 'orangtua'] },
+  { label: 'Guru', path: '/teachers', roles: ['admin'] },
+  { label: 'Jadwal', path: '/schedule', roles: ['admin', 'guru', 'siswa', 'orangtua'] },
+  { label: 'Absensi', path: '/attendance', roles: ['admin', 'guru', 'siswa', 'orangtua'] },
+  { label: 'Nilai', path: '/grades', roles: ['admin', 'guru', 'siswa', 'orangtua'] },
+  { label: 'Pengumuman', path: '/announcements', roles: ['admin', 'guru', 'siswa', 'orangtua'] }
 ]
+
+const navigationItems = computed(() => {
+  const userRole = authStore.user?.role || ''
+  return navigationConfig.filter(item => item.roles.includes(userRole))
+})
 
 const isActive = (path: string) => {
   return route.path === path

@@ -27,7 +27,7 @@ export interface Teacher {
   nip: string
   email: string
   phone?: string
-  subject: string
+  subjects: string[]
   classes: string[]
 }
 

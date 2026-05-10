@@ -1,9 +1,14 @@
 <template>
   <div class="space-y-6">
     <!-- Header -->
-    <div>
-      <h1 class="text-3xl font-bold text-gray-900">Nilai Siswa</h1>
-      <p class="text-gray-600">Input dan lihat nilai siswa</p>
+    <div class="flex justify-between items-center">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900">Nilai Siswa</h1>
+        <p class="text-gray-600 mt-1">Input dan lihat nilai siswa</p>
+      </div>
+      <Button v-if="canEdit" variant="primary" @click="openAddModal">
+        Input Nilai
+      </Button>
     </div>
 
     <!-- Filters -->
@@ -53,6 +58,7 @@
               <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700">Nilai</th>
               <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700">Grade</th>
               <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700">Tanggal</th>
+              <th v-if="canEdit" class="px-6 py-3 text-center text-xs font-semibold text-gray-700">Aksi</th>
             </tr>
           </thead>
           <tbody class="divide-y">
@@ -74,6 +80,16 @@
               </td>
               <td class="px-6 py-4 text-center text-gray-600 text-sm">
                 {{ new Date(grade.date).toLocaleDateString('id-ID') }}
+              </td>
+              <td v-if="canEdit" class="px-6 py-4 text-center">
+                <div class="flex justify-center gap-2">
+                  <Button size="sm" variant="secondary" @click="openEditModal(grade)">
+                    Edit
+                  </Button>
+                  <Button size="sm" variant="danger" @click="deleteGrade(grade.id)">
+                    Hapus
+                  </Button>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -107,21 +123,94 @@
         </div>
       </div>
     </Card>
+
+    <!-- Add/Edit Modal -->
+    <Modal
+      :is-open="showModal"
+      :title="editingGrade ? 'Edit Nilai' : 'Input Nilai Baru'"
+      confirm-text="Simpan"
+      @close="closeModal"
+      @confirm="saveGrade"
+    >
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Pilih Siswa</label>
+          <select
+            v-model="formData.studentId"
+            @change="onStudentChange"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Pilih Siswa</option>
+            <option v-for="student in students" :key="student.id" :value="student.id">
+              {{ student.name }} ({{ student.class }})
+            </option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Mata Pelajaran</label>
+          <select
+            v-model="formData.subject"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="Matematika">Matematika</option>
+            <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+            <option value="Teknologi Informasi">Teknologi Informasi</option>
+            <option value="Fisika">Fisika</option>
+            <option value="Kimia">Kimia</option>
+            <option value="Bahasa Inggris">Bahasa Inggris</option>
+          </select>
+        </div>
+
+        <Input
+          v-model.number="formData.score"
+          type="number"
+          label="Nilai"
+          placeholder="0-100"
+          required
+        />
+
+        <Input
+          v-model="formData.date"
+          type="date"
+          label="Tanggal"
+          required
+        />
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import type { Grade } from '../../types'
+import { ref, computed, reactive } from 'vue'
+import { useAuthStore } from '../../stores/auth'
+import type { Grade, Student } from '../../types'
 import gradesData from '../../data/grades.json'
 import studentsData from '../../data/students.json'
 import Card from '../../components/ui/Card.vue'
 import Badge from '../../components/ui/Badge.vue'
+import Button from '../../components/ui/Button.vue'
+import Modal from '../../components/ui/Modal.vue'
+import Input from '../../components/ui/Input.vue'
+
+const authStore = useAuthStore()
+const canEdit = computed(() => ['admin', 'guru'].includes(authStore.user?.role || ''))
 
 const grades = ref<Grade[]>(gradesData.grades)
+const students = ref<Student[]>(studentsData.students)
 const selectedClass = ref('')
 const selectedSubject = ref('')
 const filteredGrades = ref<Grade[]>(gradesData.grades)
+
+const showModal = ref(false)
+const editingGrade = ref<Grade | null>(null)
+const formData = reactive({
+  studentId: '',
+  studentName: '',
+  subject: 'Matematika',
+  score: 0,
+  date: new Date().toISOString().split('T')[0]
+})
 
 const getStudentClass = (studentId: string) => {
   const student = studentsData.students.find(s => s.id === studentId)
@@ -171,4 +260,64 @@ const filterGrades = () => {
     return matchClass && matchSubject
   })
 }
+
+const openAddModal = () => {
+  editingGrade.value = null
+  formData.studentId = ''
+  formData.studentName = ''
+  formData.subject = 'Matematika'
+  formData.score = 0
+  formData.date = new Date().toISOString().split('T')[0]
+  showModal.value = true
+}
+
+const openEditModal = (grade: Grade) => {
+  editingGrade.value = grade
+  formData.studentId = grade.studentId
+  formData.studentName = grade.studentName
+  formData.subject = grade.subject
+  formData.score = grade.score
+  formData.date = grade.date
+  showModal.value = true
+}
+
+const onStudentChange = () => {
+  const student = students.value.find(s => s.id === formData.studentId)
+  if (student) {
+    formData.studentName = student.name
+  }
+}
+
+const closeModal = () => {
+  showModal.value = false
+}
+
+const saveGrade = () => {
+  if (!formData.studentId) {
+    alert('Pilih siswa terlebih dahulu')
+    return
+  }
+
+  if (editingGrade.value) {
+    const index = grades.value.findIndex(g => g.id === editingGrade.value?.id)
+    if (index !== -1) {
+      grades.value[index] = { ...editingGrade.value, ...formData }
+    }
+  } else {
+    grades.value.push({
+      id: `grade-${Date.now()}`,
+      ...formData
+    })
+  }
+  filterGrades()
+  closeModal()
+}
+
+const deleteGrade = (id: string) => {
+  if (confirm('Apakah Anda yakin ingin menghapus data nilai ini?')) {
+    grades.value = grades.value.filter(g => g.id !== id)
+    filterGrades()
+  }
+}
 </script>
+

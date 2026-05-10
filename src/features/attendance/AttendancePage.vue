@@ -31,7 +31,7 @@
             <option value="X-C">X-C</option>
           </select>
         </div>
-        <Button variant="primary" @click="saveAttendance" class="mt-6">
+        <Button v-if="canEdit" variant="primary" @click="saveAttendance" class="mt-6">
           Simpan
         </Button>
       </div>
@@ -61,7 +61,8 @@
                 <select
                   :value="getAttendanceStatus(student.id)"
                   @change="setAttendanceStatus(student.id, ($event.target as HTMLSelectElement).value as any)"
-                  class="px-3 py-1.5 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400 transition-all"
+                  :disabled="!canEdit"
+                  class="px-3 py-1.5 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400 transition-all disabled:opacity-50 disabled:bg-gray-100 disabled:cursor-not-allowed"
                 >
                   <option value="hadir">Hadir</option>
                   <option value="izin">Izin</option>
@@ -74,7 +75,8 @@
                   @input="setAttendanceNote(student.id, ($event.target as HTMLInputElement).value)"
                   type="text"
                   placeholder="Keterangan"
-                  class="w-32 px-3 py-1.5 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400 transition-all"
+                  :disabled="!canEdit"
+                  class="w-32 px-3 py-1.5 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400 transition-all disabled:opacity-50 disabled:bg-gray-100 disabled:cursor-not-allowed"
                 />
               </td>
             </tr>
@@ -108,6 +110,7 @@ import studentsData from '../../data/students.json'
 import Card from '../../components/ui/Card.vue'
 import Button from '../../components/ui/Button.vue'
 import Badge from '../../components/ui/Badge.vue'
+import { useAuthStore } from '../../stores/auth'
 
 interface AttendanceEntry {
   studentId: string
@@ -120,6 +123,9 @@ const selectedClass = ref('')
 const students = ref<Student[]>(studentsData.students)
 const attendance = ref<Map<string, AttendanceEntry>>(new Map())
 const notes = ref<Map<string, string>>(new Map())
+
+const authStore = useAuthStore()
+const canEdit = computed(() => ['admin', 'guru'].includes(authStore.user?.role || ''))
 
 const filteredStudents = computed(() => {
   if (!selectedClass.value) {

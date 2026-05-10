@@ -2,39 +2,39 @@
   "teachers": [
     {
       "id": "tch-001",
-      "name": "Budi Santoso, S.Pd",
+      "name": "Rahmad Hidayatullah S.Kom",
       "nip": "198512051234567890",
-      "email": "budi.santoso@smk.com",
+      "email": "rahmadhidayatullah@gmail.com",
       "phone": "081234567890",
-      "subject": "Matematika",
-      "classes": ["XII-A", "XI-B", "X-C"]
+      "subjects": ["Pemrograman Dasar"],
+      "classes": ["X RPL"]
     },
     {
       "id": "tch-002",
-      "name": "Siti Rahayu, S.Pd",
+      "name": "Abdul Hadi S.Kom., M.Pd",
       "nip": "198715062345678901",
-      "email": "siti.rahayu@smk.com",
+      "email": "abdulhadi@gmail.com",
       "phone": "081345678901",
-      "subject": "Bahasa Indonesia",
-      "classes": ["XII-A", "XI-B"]
+      "subjects": ["Basis Data"],
+      "classes": ["XI RPL"]
     },
     {
       "id": "tch-003",
-      "name": "Adi Wijaya, S.Kom",
+      "name": "Ja'far Ilham R, S.Kom",
       "nip": "198923074567890123",
-      "email": "adi.wijaya@smk.com",
+      "email": "jakfarilham@gmail.com",
       "phone": "081456789012",
-      "subject": "Teknologi Informasi",
-      "classes": ["X-C", "XI-B", "XII-A"]
+      "subjects": ["Android Dasar"],
+      "classes": ["XI RPL", "X RPL"]
     },
     {
       "id": "tch-004",
-      "name": "Dina Kusumawardhani, S.Pd",
+      "name": "Hendra Dwi Saputra",
       "nip": "199034085678901234",
-      "email": "dina.kusuma@smk.com",
+      "email": "hendradwisaputra@gmail.com",
       "phone": "081567890123",
-      "subject": "Fisika",
-      "classes": ["XII-A", "X-C"]
+      "subjects": ["Administrasi Sistem Jaringan", "Programana Berorientasi Objek"],
+      "classes": ["XI RPL", "XII RPL", "XII TKJ"]
     }
   ]
 }

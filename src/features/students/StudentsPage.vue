@@ -6,7 +6,7 @@
         <h1 class="text-3xl font-bold text-gray-900">Daftar Siswa</h1>
         <p class="text-gray-600 mt-1">Total: {{ studentStore.filteredStudents.length }} siswa</p>
       </div>
-      <Button variant="primary" @click="openAddModal">
+      <Button v-if="authStore.user?.role === 'admin'" variant="primary" @click="openAddModal">
         Tambah Siswa
       </Button>
     </div>
@@ -54,7 +54,7 @@
             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700">Kelas</th>
             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700">Email</th>
             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700">Telepon</th>
-            <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700">Aksi</th>
+            <th v-if="authStore.user?.role === 'admin'" class="px-6 py-3 text-center text-xs font-semibold text-gray-700">Aksi</th>
           </tr>
         </thead>
         <tbody class="divide-y">
@@ -70,7 +70,7 @@
             </td>
             <td class="px-6 py-4 text-gray-600 text-sm">{{ student.email }}</td>
             <td class="px-6 py-4 text-gray-600 text-sm">{{ student.phone || '-' }}</td>
-            <td class="px-6 py-4 text-center">
+            <td v-if="authStore.user?.role === 'admin'" class="px-6 py-4 text-center">
               <div class="flex justify-center gap-2">
                 <Button
                   size="sm"
@@ -163,8 +163,10 @@ import Input from '../../components/ui/Input.vue'
 import Button from '../../components/ui/Button.vue'
 import Badge from '../../components/ui/Badge.vue'
 import Modal from '../../components/ui/Modal.vue'
+import { useAuthStore } from '../../stores/auth'
 
 const studentStore = useStudentStore()
+const authStore = useAuthStore()
 const showModal = ref(false)
 const editingStudent = ref<Student | null>(null)
 
