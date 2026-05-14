@@ -1,0 +1,44 @@
+{
+  "classes": [
+    {
+      "id": "cls-001",
+      "name": "X RPL",
+      "major": "RPL"
+    },
+    {
+      "id": "cls-002",
+      "name": "X TKJ",
+      "major": "TKJ"
+    },
+    {
+      "id": "cls-1778592629760",
+      "name": "X DKV",
+      "major": "DKV"
+    },
+    {
+      "id": "cls-1778592640552",
+      "name": "X TPTL",
+      "major": "TPTL"
+    },
+    {
+      "id": "cls-1778593304950",
+      "name": "XI RPL",
+      "major": "RPL"
+    },
+    {
+      "id": "cls-1778593313323",
+      "name": "XI TKJ",
+      "major": "TKJ"
+    },
+    {
+      "id": "cls-1778593322641",
+      "name": "XI DKV",
+      "major": "DKV"
+    },
+    {
+      "id": "cls-1778593332462",
+      "name": "XI TPTL",
+      "major": "TPTL"
+    }
+  ]
+}

@@ -1,35 +1,36 @@
 <template>
   <Teleport to="body">
     <Transition name="modal">
-      <div
-        v-if="isOpen"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
-      >
-        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 max-h-[80vh] overflow-y-auto">
-          <!-- Header -->
-          <div class="flex justify-between items-center p-6 border-b border-gray-100">
-            <h2 class="text-lg font-semibold text-gray-900">{{ title }}</h2>
-            <button
-              class="text-gray-400 hover:text-gray-600 transition-colors"
-              @click="emit('close')"
-            >
-              ✕
-            </button>
-          </div>
+      <div v-if="isOpen" class="fixed inset-0 z-[100] overflow-y-auto">
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" @click="$emit('close')"></div>
 
-          <!-- Content -->
-          <div class="p-6">
-            <slot />
-          </div>
+        <!-- Modal Container -->
+        <div class="flex min-h-full items-center justify-center p-4">
+          <div class="relative bg-white rounded-modal shadow-elevated w-full max-w-lg overflow-hidden transform transition-all border border-slate-200">
+            <!-- Header -->
+            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+              <div>
+                <h3 class="text-base font-bold text-slate-900 leading-none">{{ title }}</h3>
+                <p v-if="subtitle" class="text-xs text-slate-500 mt-1 font-medium">{{ subtitle }}</p>
+              </div>
+              <button @click="$emit('close')" class="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-50 transition-colors">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
 
-          <!-- Footer -->
-          <div class="flex justify-end gap-3 p-6 border-t border-gray-100 bg-gray-50 rounded-b-xl">
-            <Button variant="secondary" size="sm" @click="emit('close')">
-              Batal
-            </Button>
-            <Button variant="primary" size="sm" @click="emit('confirm')">
-              {{ confirmText }}
-            </Button>
+            <!-- Body -->
+            <div class="px-6 py-6 max-h-[70vh] overflow-y-auto">
+              <slot />
+            </div>
+
+            <!-- Footer -->
+            <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
+              <Button variant="secondary" @click="$emit('close')">{{ cancelText }}</Button>
+              <Button variant="primary" @click="$emit('confirm')">{{ confirmText }}</Button>
+            </div>
           </div>
         </div>
       </div>
@@ -42,34 +43,30 @@ import Button from './Button.vue'
 
 interface Props {
   isOpen: boolean
-  title?: string
+  title: string
+  subtitle?: string
   confirmText?: string
+  cancelText?: string
 }
 
 withDefaults(defineProps<Props>(), {
-  title: 'Confirm',
-  confirmText: 'Confirm'
+  isOpen: false,
+  confirmText: 'Konfirmasi',
+  cancelText: 'Batal'
 })
 
-const emit = defineEmits<{
-  close: []
-  confirm: []
-}>()
+defineEmits(['close', 'confirm'])
 </script>
 
 <style scoped>
 .modal-enter-active,
 .modal-leave-active {
-  transition: opacity 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .modal-enter-from,
 .modal-leave-to {
   opacity: 0;
-}
-
-.modal-enter-to,
-.modal-leave-from {
-  opacity: 1;
+  transform: scale(0.98);
 }
 </style>

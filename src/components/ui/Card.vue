@@ -1,5 +1,5 @@
 <template>
-  <div :class="['rounded-lg p-6 bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow', classOverride]">
+  <div :class="['premium-card p-6 md:p-8', classOverride]">
     <slot />
   </div>
 </template>
@@ -13,3 +13,4 @@ withDefaults(defineProps<Props>(), {
   classOverride: ''
 })
 </script>
+

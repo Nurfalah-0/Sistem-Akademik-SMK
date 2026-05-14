@@ -1,7 +1,7 @@
 <template>
   <span
     :class="[
-      'inline-block px-3 py-1 rounded-full text-sm font-medium',
+      'inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-extrabold uppercase tracking-widest border transition-all duration-300',
       variantClasses
     ]"
   >
@@ -13,7 +13,7 @@
 import { computed } from 'vue'
 
 interface Props {
-  variant?: 'success' | 'warning' | 'danger' | 'info' | 'default' | 'urgent'
+  variant?: 'success' | 'warning' | 'danger' | 'info' | 'default' | 'urgent' | 'primary' | 'secondary'
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -22,13 +22,16 @@ const props = withDefaults(defineProps<Props>(), {
 
 const variantClasses = computed(() => {
   const variants: Record<string, string> = {
-    success: 'bg-green-100 text-green-800',
-    warning: 'bg-yellow-100 text-yellow-800',
-    danger: 'bg-red-100 text-red-800',
-    info: 'bg-blue-100 text-blue-800',
-    urgent: 'bg-red-100 text-red-800',
-    default: 'bg-gray-100 text-gray-800'
+    success: 'bg-emerald-50 text-emerald-600 border-emerald-100',
+    warning: 'bg-amber-50 text-amber-600 border-amber-100',
+    danger: 'bg-rose-50 text-rose-600 border-rose-100',
+    urgent: 'bg-rose-50 text-rose-600 border-rose-100',
+    info: 'bg-sky-50 text-sky-600 border-sky-100',
+    primary: 'bg-indigo-50 text-indigo-600 border-indigo-100',
+    secondary: 'bg-slate-50 text-slate-600 border-slate-200',
+    default: 'bg-slate-50 text-slate-500 border-slate-100'
   }
   return variants[props.variant]
 })
 </script>
+

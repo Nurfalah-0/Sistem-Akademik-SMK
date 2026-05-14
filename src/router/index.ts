@@ -8,6 +8,7 @@ import SchedulePage from '../features/schedule/SchedulePage.vue'
 import AttendancePage from '../features/attendance/AttendancePage.vue'
 import GradesPage from '../features/grades/GradesPage.vue'
 import AnnouncementsPage from '../features/announcements/AnnouncementsPage.vue'
+import ClassesPage from '../features/classes/ClassesPage.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -22,12 +23,17 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/dashboard',
     component: DashboardPage,
-    meta: { requiresAuth: true, roles: ['admin', 'guru', 'siswa', 'orangtua'] }
+    meta: { requiresAuth: true, roles: ['admin', 'guru', 'siswa', 'orang_tua'] }
+  },
+  {
+    path: '/classes',
+    component: ClassesPage,
+    meta: { requiresAuth: true, roles: ['admin'] }
   },
   {
     path: '/students',
     component: StudentsPage,
-    meta: { requiresAuth: true, roles: ['admin', 'guru', 'orangtua'] }
+    meta: { requiresAuth: true, roles: ['admin', 'guru', 'orang_tua'] }
   },
   {
     path: '/teachers',
@@ -37,22 +43,22 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/schedule',
     component: SchedulePage,
-    meta: { requiresAuth: true, roles: ['admin', 'guru', 'siswa', 'orangtua'] }
+    meta: { requiresAuth: true, roles: ['admin', 'guru', 'siswa', 'orang_tua'] }
   },
   {
     path: '/attendance',
     component: AttendancePage,
-    meta: { requiresAuth: true, roles: ['admin', 'guru', 'siswa', 'orangtua'] }
+    meta: { requiresAuth: true, roles: ['admin', 'guru', 'siswa', 'orang_tua'] }
   },
   {
     path: '/grades',
     component: GradesPage,
-    meta: { requiresAuth: true, roles: ['admin', 'guru', 'siswa', 'orangtua'] }
+    meta: { requiresAuth: true, roles: ['admin', 'guru', 'siswa', 'orang_tua'] }
   },
   {
     path: '/announcements',
     component: AnnouncementsPage,
-    meta: { requiresAuth: true, roles: ['admin', 'guru', 'siswa', 'orangtua'] }
+    meta: { requiresAuth: true, roles: ['admin', 'guru', 'siswa', 'orang_tua'] }
   }
 ]
 

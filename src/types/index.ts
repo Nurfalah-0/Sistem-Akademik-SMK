@@ -56,3 +56,18 @@ export interface Grade {
   score: number
   date: string
 }
+
+export interface Schedule {
+  id: string
+  class: string
+  time: string
+  subject: string
+  teacher: string
+  room: string
+}
+
+export interface Class {
+  id: string
+  name: string
+  major?: string
+}

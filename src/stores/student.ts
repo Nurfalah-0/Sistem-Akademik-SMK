@@ -41,12 +41,28 @@ export const useStudentStore = defineStore('student', () => {
     return students.value.find(s => s.id === id)
   }
 
+  const saveStudentsToFile = async () => {
+    try {
+      await fetch('/api/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          filename: 'students',
+          data: { students: students.value }
+        })
+      })
+    } catch (err) {
+      console.error('Failed to save students:', err)
+    }
+  }
+
   const addStudent = (student: Omit<Student, 'id'>) => {
     const newStudent: Student = {
       ...student,
       id: `std-${Date.now()}`
     }
     students.value.push(newStudent)
+    saveStudentsToFile()
     return newStudent
   }
 
@@ -54,6 +70,7 @@ export const useStudentStore = defineStore('student', () => {
     const index = students.value.findIndex(s => s.id === id)
     if (index !== -1) {
       students.value[index] = { ...students.value[index], ...updates }
+      saveStudentsToFile()
       return true
     }
     return false
@@ -63,6 +80,7 @@ export const useStudentStore = defineStore('student', () => {
     const index = students.value.findIndex(s => s.id === id)
     if (index !== -1) {
       students.value.splice(index, 1)
+      saveStudentsToFile()
       return true
     }
     return false

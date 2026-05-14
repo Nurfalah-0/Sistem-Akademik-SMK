@@ -1,103 +1,158 @@
 <template>
-  <div class="space-y-6">
+  <div class="space-y-10 pb-16">
     <!-- Header -->
-    <div class="flex justify-between items-center">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
       <div>
-        <h1 class="text-3xl font-bold text-gray-900">Jadwal Pelajaran</h1>
-        <p class="text-gray-600 mt-1">Jadwal mengajar untuk semua kelas</p>
+        <h1 class="text-3xl font-black text-surface-900 tracking-tight">Jadwal Pelajaran</h1>
+        <p class="text-surface-500 mt-1 flex items-center gap-2 font-medium">
+          <span class="flex h-2 w-2 rounded-full bg-brand-500 animate-pulse"></span>
+          Penjadwalan aktivitas belajar mengajar SMK
+        </p>
       </div>
-      <Button v-if="isAdmin" variant="primary" @click="openAddModal">
+      <Button v-if="isAdmin" variant="primary" size="lg" @click="openAddModal">
+        <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
         Tambah Jadwal
       </Button>
     </div>
 
     <!-- Schedule by Classes -->
-    <div class="space-y-6">
-      <Card v-for="className in classes" :key="className">
-        <h2 class="text-lg font-semibold text-gray-900 mb-5">Jadwal Kelas {{ className }}</h2>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm">
-            <thead class="bg-gray-50 border-b">
-              <tr>
-                <th class="px-4 py-3 text-left font-semibold text-gray-700">Jam</th>
-                <th class="px-4 py-3 text-left font-semibold text-gray-700">Mata Pelajaran</th>
-                <th class="px-4 py-3 text-left font-semibold text-gray-700">Guru</th>
-                <th class="px-4 py-3 text-left font-semibold text-gray-700">Ruangan</th>
-                <th v-if="isAdmin" class="px-4 py-3 text-center font-semibold text-gray-700">Aksi</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y">
-              <tr v-for="slot in getSchedulesByClass(className)" :key="slot.id" class="hover:bg-gray-50">
-                <td class="px-4 py-3 font-medium">{{ slot.time }}</td>
-                <td class="px-4 py-3">{{ slot.subject }}</td>
-                <td class="px-4 py-3">{{ slot.teacher }}</td>
-                <td class="px-4 py-3">{{ slot.room }}</td>
-                <td v-if="isAdmin" class="px-4 py-3 text-center">
-                  <div class="flex justify-center gap-2">
-                    <Button size="sm" variant="secondary" @click="openEditModal(slot)">
-                      Edit
-                    </Button>
-                    <Button size="sm" variant="danger" @click="deleteSchedule(slot.id)">
-                      Hapus
-                    </Button>
-                  </div>
-                </td>
-              </tr>
-              <tr v-if="getSchedulesByClass(className).length === 0">
-                <td colspan="5" class="px-4 py-8 text-center text-gray-500">
-                  Belum ada jadwal untuk kelas ini
-                </td>
-              </tr>
-            </tbody>
-          </table>
+    <div class="space-y-12">
+      <div v-for="className in classes" :key="className" class="space-y-6">
+        <div class="flex items-center gap-4 px-2">
+          <div class="h-8 w-1.5 bg-brand-600 rounded-full"></div>
+          <h2 class="text-xl font-black text-surface-900 tracking-tight">Kelas {{ className }}</h2>
+          <div class="flex-1 h-px bg-surface-200/60"></div>
         </div>
-      </Card>
+
+        <div class="premium-card overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left">
+              <thead>
+                <tr class="bg-surface-50 border-b border-surface-200/60">
+                  <th class="px-8 py-5 text-[10px] font-black text-surface-400 uppercase tracking-[0.2em] w-48">Waktu Pelaksanaan</th>
+                  <th class="px-8 py-5 text-[10px] font-black text-surface-400 uppercase tracking-[0.2em]">Mata Pelajaran</th>
+                  <th class="px-8 py-5 text-[10px] font-black text-surface-400 uppercase tracking-[0.2em]">Guru Pengajar</th>
+                  <th class="px-8 py-5 text-[10px] font-black text-surface-400 uppercase tracking-[0.2em]">Ruangan</th>
+                  <th v-if="isAdmin" class="px-8 py-5 text-[10px] font-black text-surface-400 uppercase tracking-[0.2em] text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-surface-100">
+                <tr v-for="slot in getSchedulesByClass(className)" :key="slot.id" class="hover:bg-surface-50/80 transition-all duration-300 group">
+                  <td class="px-8 py-6">
+                    <div class="inline-flex items-center px-3 py-1.5 bg-surface-100 text-surface-700 text-[11px] font-bold rounded-lg border border-surface-200/60 font-mono">
+                      {{ slot.time }}
+                    </div>
+                  </td>
+                  <td class="px-8 py-6">
+                    <div class="font-black text-surface-900 text-[15px] tracking-tight">{{ slot.subject }}</div>
+                  </td>
+                  <td class="px-8 py-6">
+                    <div class="flex items-center gap-3">
+                      <div class="w-8 h-8 rounded-xl bg-brand-50 flex items-center justify-center text-brand-600 text-[11px] font-black border border-brand-100">
+                        {{ slot.teacher.charAt(0) }}
+                      </div>
+                      <span class="text-[13px] text-surface-700 font-bold">{{ slot.teacher }}</span>
+                    </div>
+                  </td>
+                  <td class="px-8 py-6">
+                    <div class="inline-flex items-center gap-2 text-surface-500 bg-surface-50 px-3 py-1 rounded-lg border border-surface-100">
+                      <svg class="w-4 h-4 text-surface-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                      </svg>
+                      <span class="text-[12px] font-bold">{{ slot.room }}</span>
+                    </div>
+                  </td>
+                  <td v-if="isAdmin" class="px-8 py-6 text-right">
+                    <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0">
+                      <button @click="openEditModal(slot)" class="p-2.5 bg-surface-100 text-surface-400 hover:text-brand-600 hover:bg-brand-50 rounded-xl border border-surface-200/60 transition-all">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                        </svg>
+                      </button>
+                      <button @click="deleteSchedule(slot.id)" class="p-2.5 bg-surface-100 text-surface-400 hover:text-rose-500 hover:bg-rose-50 rounded-xl border border-surface-200/60 transition-all">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr v-if="getSchedulesByClass(className).length === 0">
+                  <td colspan="5" class="px-8 py-16 text-center">
+                    <div class="w-16 h-16 bg-surface-100 rounded-full flex items-center justify-center mx-auto mb-4 border border-surface-200">
+                      <svg class="w-8 h-8 text-surface-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <p class="text-surface-400 text-sm font-medium italic">Belum ada jadwal akademik untuk kelas ini</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Add/Edit Modal -->
     <Modal
       :is-open="showModal"
-      :title="editingSchedule ? 'Edit Jadwal' : 'Tambah Jadwal Baru'"
-      confirm-text="Simpan"
+      :title="editingSchedule ? 'Ubah Konfigurasi Jadwal' : 'Tambah Jadwal Akademik Baru'"
+      subtitle="Silakan lengkapi detail jadwal pelajaran untuk kelas yang dipilih."
+      confirm-text="Simpan Jadwal"
       @close="closeModal"
       @confirm="saveSchedule"
     >
-      <div class="space-y-4">
+      <div class="space-y-6">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Kelas</label>
+          <label class="block text-[11px] font-black text-surface-400 uppercase tracking-widest mb-2 px-1">Pilih Kelas Target</label>
           <select
             v-model="formData.class"
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full px-5 py-3.5 bg-surface-100/50 border border-surface-200/60 rounded-2xl text-surface-900 font-bold focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 transition-all appearance-none cursor-pointer"
           >
             <option v-for="c in classes" :key="c" :value="c">{{ c }}</option>
           </select>
         </div>
 
-        <Input
-          v-model="formData.time"
-          label="Jam Pelajaran"
-          placeholder="Contoh: 07:00 - 08:30"
-          required
-        />
+        <div class="grid grid-cols-2 gap-6">
+          <Input
+            v-model="formData.startTime"
+            label="Waktu Mulai"
+            type="time"
+            required
+          />
+          <Input
+            v-model="formData.endTime"
+            label="Waktu Selesai"
+            type="time"
+            required
+          />
+        </div>
 
         <Input
           v-model="formData.subject"
           label="Mata Pelajaran"
-          placeholder="Masukkan nama mata pelajaran"
+          placeholder="Contoh: Pemrograman Berorientasi Objek"
           required
         />
 
-        <Input
-          v-model="formData.teacher"
-          label="Guru Pengajar"
-          placeholder="Masukkan nama guru"
-          required
-        />
+        <div>
+          <label class="block text-[11px] font-black text-surface-400 uppercase tracking-widest mb-2 px-1">Tenaga Pengajar</label>
+          <select
+            v-model="formData.teacher"
+            class="w-full px-5 py-3.5 bg-surface-100/50 border border-surface-200/60 rounded-2xl text-surface-900 font-bold focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 transition-all appearance-none cursor-pointer"
+            required
+          >
+            <option v-for="t in teachers" :key="t.id" :value="t.name">{{ t.name }}</option>
+          </select>
+        </div>
 
         <Input
           v-model="formData.room"
-          label="Ruangan"
-          placeholder="Contoh: A-101 atau Lab IT"
+          label="Lokasi / Ruangan"
+          placeholder="Contoh: Lab RPL 2"
           required
         />
       </div>
@@ -108,49 +163,33 @@
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue'
 import { useAuthStore } from '../../stores/auth'
-import Card from '../../components/ui/Card.vue'
+import type { Schedule, Teacher, Class } from '../../types'
+import schedulesData from '../../data/schedules.json'
+import teachersData from '../../data/teachers.json'
+import classesData from '../../data/classes.json'
 import Button from '../../components/ui/Button.vue'
 import Modal from '../../components/ui/Modal.vue'
 import Input from '../../components/ui/Input.vue'
 
-interface ScheduleSlot {
-  id: string
-  time: string
-  subject: string
-  teacher: string
-  room: string
-  class: string
-}
-
 const authStore = useAuthStore()
 const isAdmin = computed(() => authStore.user?.role === 'admin')
 
-const schedules = ref<ScheduleSlot[]>([
-  { id: '1', class: 'XII-A', time: '07:00 - 08:30', subject: 'Matematika', teacher: 'Budi Santoso', room: 'A-101' },
-  { id: '2', class: 'XII-A', time: '08:30 - 10:00', subject: 'Bahasa Indonesia', teacher: 'Siti Rahayu', room: 'A-101' },
-  { id: '3', class: 'XII-A', time: '10:15 - 11:45', subject: 'Teknologi Informasi', teacher: 'Adi Wijaya', room: 'Lab IT' },
-  { id: '4', class: 'XII-A', time: '12:30 - 14:00', subject: 'Fisika', teacher: 'Dina Kusumawardhani', room: 'A-102' },
-  { id: '5', class: 'XI-B', time: '07:00 - 08:30', subject: 'Bahasa Inggris', teacher: 'Budi Santoso', room: 'B-201' },
-  { id: '6', class: 'XI-B', time: '08:30 - 10:00', subject: 'Matematika', teacher: 'Siti Rahayu', room: 'B-201' },
-  { id: '7', class: 'XI-B', time: '10:15 - 11:45', subject: 'Fisika', teacher: 'Adi Wijaya', room: 'Lab' },
-  { id: '8', class: 'XI-B', time: '12:30 - 14:00', subject: 'Kimia', teacher: 'Dina Kusumawardhani', room: 'B-202' },
-  { id: '9', class: 'X-C', time: '07:00 - 08:30', subject: 'Teknologi Informasi', teacher: 'Adi Wijaya', room: 'Lab IT' },
-  { id: '10', class: 'X-C', time: '08:30 - 10:00', subject: 'Matematika', teacher: 'Budi Santoso', room: 'C-301' },
-  { id: '11', class: 'X-C', time: '10:15 - 11:45', subject: 'Bahasa Indonesia', teacher: 'Siti Rahayu', room: 'C-301' },
-  { id: '12', class: 'X-C', time: '12:30 - 14:00', subject: 'Penjas Orkes', teacher: 'Dina Kusumawardhani', room: 'Lapangan' }
-])
+const schedules = ref<Schedule[]>(schedulesData.schedules)
+const teachers = ref<Teacher[]>(teachersData.teachers)
+const classesList = ref<Class[]>(classesData.classes)
 
-const classes = ['XII-A', 'XI-B', 'X-C']
+const classes = computed(() => classesList.value.map(c => c.name))
 
 const getSchedulesByClass = (className: string) => {
   return schedules.value.filter(s => s.class === className)
 }
 
 const showModal = ref(false)
-const editingSchedule = ref<ScheduleSlot | null>(null)
+const editingSchedule = ref<Schedule | null>(null)
 const formData = reactive({
   class: '',
-  time: '',
+  startTime: '',
+  endTime: '',
   subject: '',
   teacher: '',
   room: ''
@@ -158,18 +197,21 @@ const formData = reactive({
 
 const openAddModal = () => {
   editingSchedule.value = null
-  formData.class = 'XII-A'
-  formData.time = ''
+  formData.class = classes.value[0] || ''
+  formData.startTime = ''
+  formData.endTime = ''
   formData.subject = ''
-  formData.teacher = ''
+  formData.teacher = teachers.value[0]?.name || ''
   formData.room = ''
   showModal.value = true
 }
 
-const openEditModal = (slot: ScheduleSlot) => {
+const openEditModal = (slot: Schedule) => {
   editingSchedule.value = slot
   formData.class = slot.class
-  formData.time = slot.time
+  const [start, end] = slot.time.split(' - ')
+  formData.startTime = start || ''
+  formData.endTime = end || ''
   formData.subject = slot.subject
   formData.teacher = slot.teacher
   formData.room = slot.room
@@ -181,23 +223,51 @@ const closeModal = () => {
 }
 
 const saveSchedule = () => {
+  const time = `${formData.startTime} - ${formData.endTime}`
+  const dataToSave = {
+    class: formData.class,
+    time,
+    subject: formData.subject,
+    teacher: formData.teacher,
+    room: formData.room
+  }
+
   if (editingSchedule.value) {
     const index = schedules.value.findIndex(s => s.id === editingSchedule.value?.id)
     if (index !== -1) {
-      schedules.value[index] = { ...editingSchedule.value, ...formData }
+      schedules.value[index] = { ...editingSchedule.value, ...dataToSave }
     }
   } else {
     schedules.value.push({
       id: Date.now().toString(),
-      ...formData
+      ...dataToSave
     })
   }
   closeModal()
+  saveSchedulesToFile()
+}
+
+const saveSchedulesToFile = async () => {
+  try {
+    await fetch('/api/save', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        filename: 'schedules',
+        data: { schedules: schedules.value }
+      })
+    })
+  } catch (error) {
+    console.error('Failed to save schedules:', error)
+  }
 }
 
 const deleteSchedule = (id: string) => {
   if (confirm('Apakah Anda yakin ingin menghapus jadwal ini?')) {
     schedules.value = schedules.value.filter(s => s.id !== id)
+    saveSchedulesToFile()
   }
 }
 </script>

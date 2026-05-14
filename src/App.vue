@@ -1,9 +1,19 @@
 <template>
-  <div v-if="!route.meta.layout || route.meta.layout !== 'auth'">
-    <AppLayout />
+  <div v-if="!route.meta.layout || route.meta.layout !== 'auth'" class="min-h-screen">
+    <AppLayout>
+      <router-view v-slot="{ Component }">
+        <transition name="fade" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+    </AppLayout>
   </div>
-  <div v-else>
-    <RouterView />
+  <div v-else class="min-h-screen">
+    <router-view v-slot="{ Component }">
+      <transition name="fade" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
   </div>
 </template>
 
@@ -22,11 +32,18 @@ onMounted(() => {
 </script>
 
 <style>
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 
 * {
   @apply antialiased;
 }
 </style>
+
