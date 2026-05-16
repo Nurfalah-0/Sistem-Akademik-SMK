@@ -11,22 +11,17 @@ export interface User {
 export interface Student {
   id: string
   name: string
-  nisn: string
+  niup: string
   class: string
-  email: string
-  phone?: string
-  birthDate?: string
-  address?: string
-  parentName?: string
-  parentPhone?: string
+  status: 'siswa aktif' | 'siswa berhenti' | 'siswa lulus'
+  gender: 'L' | 'P'
 }
 
 export interface Teacher {
   id: string
   name: string
-  nip: string
-  email: string
-  phone?: string
+  niup: string
+  gender: 'L' | 'P'
   subjects: string[]
   classes: string[]
 }
@@ -70,4 +65,6 @@ export interface Class {
   id: string
   name: string
   major?: string
+  teacher: string
+  capacity: number
 }

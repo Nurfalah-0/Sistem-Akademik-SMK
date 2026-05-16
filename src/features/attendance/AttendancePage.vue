@@ -42,14 +42,26 @@
             class="w-full pl-12 pr-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-slate-900 font-medium focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all appearance-none"
           >
             <option value="">Semua Kelas</option>
-            <option value="XII-A">Kelas XII-A</option>
-            <option value="XI-B">Kelas XI-B</option>
-            <option value="X-C">Kelas X-C</option>
+            <option v-for="c in classesList" :key="c.id" :value="c.name">
+              Kelas {{ c.name }}
+            </option>
           </select>
           <svg class="w-5 h-5 text-slate-400 absolute left-4 top-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
           </svg>
         </div>
+      </div>
+      <div class="space-y-2">
+        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest px-1">Status Kehadiran</label>
+        <select
+          v-model="statusFilter"
+          class="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-slate-900 font-medium focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all appearance-none cursor-pointer"
+        >
+          <option value="">Semua Status</option>
+          <option value="hadir">Hadir</option>
+          <option value="izin">Izin</option>
+          <option value="alfa">Alfa</option>
+        </select>
       </div>
       
       <!-- Stats Quick View -->
@@ -174,8 +186,9 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import type { Student } from '../../types'
+import type { Student, Class } from '../../types'
 import studentsData from '../../data/students.json'
+import classesData from '../../data/classes.json'
 import Button from '../../components/ui/Button.vue'
 import { useAuthStore } from '../../stores/auth'
 
@@ -187,7 +200,9 @@ interface AttendanceEntry {
 
 const selectedDate = ref(new Date().toISOString().split('T')[0])
 const selectedClass = ref('')
-const students = ref<Student[]>(studentsData.students)
+const statusFilter = ref('')
+const students = ref<Student[]>(studentsData.students as Student[])
+const classesList = ref<Class[]>(classesData.classes as Class[])
 const attendance = ref<Map<string, AttendanceEntry>>(new Map())
 const notes = ref<Map<string, string>>(new Map())
 
@@ -195,10 +210,14 @@ const authStore = useAuthStore()
 const canEdit = computed(() => ['admin', 'guru'].includes(authStore.user?.role || ''))
 
 const filteredStudents = computed(() => {
-  if (!selectedClass.value) {
-    return students.value
+  let list = students.value
+  if (selectedClass.value) {
+    list = list.filter(s => s.class === selectedClass.value)
   }
-  return students.value.filter(s => s.class === selectedClass.value)
+  if (statusFilter.value) {
+    list = list.filter(s => getAttendanceStatus(s.id) === statusFilter.value)
+  }
+  return list
 })
 
 const stats = computed(() => {

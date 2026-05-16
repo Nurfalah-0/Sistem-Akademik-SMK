@@ -9,38 +9,82 @@
           {{ studentStore.filteredStudents.length }} Siswa terverifikasi dalam database
         </p>
       </div>
-      <Button v-if="authStore.user?.role === 'admin'" variant="primary" size="lg" @click="openAddModal">
-        <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-        Registrasi Siswa
-      </Button>
+      <div v-if="authStore.user?.role === 'admin'" class="flex gap-3">
+        <Button variant="secondary" size="lg" @click="openImportModal">
+          <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+          </svg>
+          Impor Data
+        </Button>
+        <Button variant="primary" size="lg" @click="openAddModal">
+          <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          Registrasi Siswa
+        </Button>
+      </div>
     </div>
 
     <!-- Filters Bar -->
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-end premium-card p-6">
-      <div class="lg:col-span-3">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 items-end premium-card p-6">
+      <div class="lg:col-span-5">
         <Input
           :model-value="studentStore.searchQuery"
           type="text"
           label="Pencarian Global"
-          placeholder="Cari identitas, NISN, atau kontak siswa..."
+          placeholder="Cari identitas, NIUP, atau nama siswa..."
           @update:model-value="(val) => studentStore.setSearch(String(val))"
         />
       </div>
       <div>
         <label class="block text-[11px] font-black text-surface-400 uppercase tracking-widest mb-2 px-1">
-          Klaster Kelas
+          Tingkat Kelas
         </label>
         <select
-          :value="studentStore.classFilter"
-          @change="studentStore.setClassFilter(($event.target as HTMLSelectElement).value as any)"
+          v-model="levelFilter"
           class="w-full px-5 py-3.5 bg-surface-100/50 border border-surface-200/60 rounded-2xl text-surface-900 font-bold focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 transition-all appearance-none cursor-pointer"
         >
-          <option value="">Semua Klaster</option>
-          <option v-for="c in classesList" :key="c.id" :value="c.name">
-            {{ c.name }}
+          <option value="">Semua Tingkat</option>
+          <option v-for="l in allLevels" :key="l" :value="l">
+            Kelas {{ l }}
           </option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-[11px] font-black text-surface-400 uppercase tracking-widest mb-2 px-1">
+          Program Keahlian
+        </label>
+        <select
+          v-model="majorFilter"
+          class="w-full px-5 py-3.5 bg-surface-100/50 border border-surface-200/60 rounded-2xl text-surface-900 font-bold focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 transition-all appearance-none cursor-pointer"
+        >
+          <option value="">Semua Jurusan</option>
+          <option v-for="m in allMajors" :key="m" :value="m">
+            {{ m }}
+          </option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-[11px] font-black text-surface-400 uppercase tracking-widest mb-2 px-1">Jenis Kelamin</label>
+        <select
+          v-model="genderFilter"
+          class="w-full px-5 py-3.5 bg-surface-100/50 border border-surface-200/60 rounded-2xl text-surface-900 font-bold focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 transition-all appearance-none cursor-pointer"
+        >
+          <option value="">Semua Gender</option>
+          <option value="L">Laki-laki</option>
+          <option value="P">Perempuan</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-[11px] font-black text-surface-400 uppercase tracking-widest mb-2 px-1">Status</label>
+        <select
+          v-model="statusFilter"
+          class="w-full px-5 py-3.5 bg-surface-100/50 border border-surface-200/60 rounded-2xl text-surface-900 font-bold focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 transition-all appearance-none cursor-pointer"
+        >
+          <option value="">Semua Status</option>
+          <option value="siswa aktif">Siswa Aktif</option>
+          <option value="siswa berhenti">Siswa Berhenti</option>
+          <option value="siswa lulus">Siswa Lulus</option>
         </select>
       </div>
     </div>
@@ -62,35 +106,36 @@
           <thead>
             <tr class="bg-surface-50 border-b border-surface-200/60">
               <th class="px-8 py-5 text-[10px] font-black text-surface-400 uppercase tracking-[0.2em]">Profil Siswa</th>
-              <th class="px-8 py-5 text-[10px] font-black text-surface-400 uppercase tracking-[0.2em]">Identitas (NISN)</th>
+              <th class="px-8 py-5 text-[10px] font-black text-surface-400 uppercase tracking-[0.2em]">Identitas (NIUP)</th>
+              <th class="px-8 py-5 text-[10px] font-black text-surface-400 uppercase tracking-[0.2em] text-center">Jenis Kelamin</th>
               <th class="px-8 py-5 text-[10px] font-black text-surface-400 uppercase tracking-[0.2em] text-center">Klaster</th>
-              <th class="px-8 py-5 text-[10px] font-black text-surface-400 uppercase tracking-[0.2em]">Kontak</th>
               <th v-if="authStore.user?.role === 'admin'" class="px-8 py-5 text-[10px] font-black text-surface-400 uppercase tracking-[0.2em] text-right">Aksi</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-surface-100">
             <tr
-              v-for="student in studentStore.filteredStudents"
+              v-for="student in filteredStudentsList"
               :key="student.id"
               class="hover:bg-surface-50/80 transition-all duration-300 group"
             >
               <td class="px-8 py-6">
-                <div class="flex items-center gap-4">
-                  <div class="relative">
-                    <div class="h-12 w-12 rounded-2xl bg-brand-50 flex items-center justify-center text-brand-600 font-black text-base uppercase border border-brand-100 group-hover:bg-brand-600 group-hover:text-white transition-all">
-                      {{ student.name.charAt(0) }}
-                    </div>
-                    <div class="absolute -bottom-1 -right-1 w-3 h-3 bg-emerald-500 rounded-full border-2 border-white shadow-sm"></div>
-                  </div>
-                  <div>
-                    <div class="font-black text-surface-900 text-base tracking-tight leading-tight group-hover:text-brand-600 transition-colors">{{ student.name }}</div>
-                    <div class="text-[10px] text-surface-400 font-bold uppercase tracking-widest mt-1">Siswa Aktif</div>
-                  </div>
+                <div>
+                  <div class="font-black text-surface-900 text-base tracking-tight leading-tight group-hover:text-brand-600 transition-colors">{{ student.name }}</div>
+                  <div class="text-[10px] font-bold uppercase tracking-widest mt-1" :class="{
+                    'text-emerald-500': student.status === 'siswa aktif',
+                    'text-rose-500': student.status === 'siswa berhenti',
+                    'text-amber-500': student.status === 'siswa lulus'
+                  }">{{ student.status }}</div>
                 </div>
               </td>
               <td class="px-8 py-6">
                 <span class="px-3 py-1.5 bg-surface-100 rounded-lg text-[11px] font-bold text-surface-600 border border-surface-200/60 font-mono">
-                  {{ student.nisn }}
+                  {{ student.niup }}
+                </span>
+              </td>
+              <td class="px-8 py-6 text-center">
+                <span class="px-3 py-1.5 bg-surface-100 rounded-lg text-[11px] font-bold text-surface-600 border border-surface-200/60 uppercase tracking-wider">
+                  {{ student.gender === 'L' ? 'Laki-laki' : 'Perempuan' }}
                 </span>
               </td>
               <td class="px-8 py-6 text-center">
@@ -98,10 +143,7 @@
                   {{ student.class }}
                 </span>
               </td>
-              <td class="px-8 py-6">
-                <div class="text-[13px] text-surface-900 font-bold">{{ student.email }}</div>
-                <div class="text-[10px] text-surface-400 font-medium mt-0.5 uppercase tracking-tighter">{{ student.phone || 'N/A' }}</div>
-              </td>
+
               <td v-if="authStore.user?.role === 'admin'" class="px-8 py-6 text-right">
                 <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0">
                   <button
@@ -149,10 +191,10 @@
         />
 
         <Input
-          v-model="formData.nisn"
-          label="Nomor Induk Siswa Nasional (NISN)"
-          placeholder="10 digit angka unik"
-          :error="formErrors.nisn"
+          v-model="formData.niup"
+          label="Nomor Induk Unit Pendidikan (NIUP)"
+          placeholder="Masukkan NIUP siswa"
+          :error="formErrors.niup"
           required
         />
 
@@ -163,33 +205,77 @@
             class="w-full px-5 py-3.5 bg-surface-100/50 border border-surface-200/60 rounded-2xl text-surface-900 font-bold focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 transition-all appearance-none cursor-pointer"
             required
           >
-            <option v-for="c in classesList" :key="c.id" :value="c.name">{{ c.name }}</option>
+            <option v-for="c in studentStore.classes" :key="c" :value="c">{{ c }}</option>
           </select>
           <p v-if="formErrors.class" class="mt-2 text-[10px] text-rose-500 font-bold uppercase tracking-widest px-1">{{ formErrors.class }}</p>
         </div>
 
-        <Input
-          v-model="formData.email"
-          type="email"
-          label="Alamat Email Siswa"
-          placeholder="siswa@domain.edu"
-          :error="formErrors.email"
-          required
-        />
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <label class="block text-[11px] font-black text-surface-400 uppercase tracking-widest mb-2 px-1">Jenis Kelamin</label>
+            <select
+              v-model="formData.gender"
+              class="w-full px-5 py-3.5 bg-surface-100/50 border border-surface-200/60 rounded-2xl text-surface-900 font-bold focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 transition-all appearance-none cursor-pointer"
+              required
+            >
+              <option value="L">Laki-laki</option>
+              <option value="P">Perempuan</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[11px] font-black text-surface-400 uppercase tracking-widest mb-2 px-1">Status Keanggotaan</label>
+            <select
+              v-model="formData.status"
+              class="w-full px-5 py-3.5 bg-surface-100/50 border border-surface-200/60 rounded-2xl text-surface-900 font-bold focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 transition-all appearance-none cursor-pointer"
+              required
+            >
+              <option value="siswa aktif">Siswa Aktif</option>
+              <option value="siswa berhenti">Siswa Berhenti</option>
+              <option value="siswa lulus">Siswa Lulus</option>
+            </select>
+          </div>
+        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-           <Input
-            v-model="formData.phone"
-            label="Nomor Telepon"
-            placeholder="08..."
-            :error="formErrors.phone"
-          />
-          <Input
-            v-model="formData.address"
-            label="Alamat Domisili"
-            placeholder="Kota Asal / Alamat"
-            :error="formErrors.address"
-          />
+
+
+      </div>
+    </Modal>
+    <!-- Bulk Import Modal -->
+    <Modal
+      :is-open="showImportModal"
+      title="Impor Masal Data Siswa"
+      subtitle="Tempel data dari Excel atau CSV. Gunakan format: Nama, NIUP, Gender (L/P), Kelas, Jurusan"
+      confirm-text="Impor Sekarang"
+      @close="closeImportModal"
+      @confirm="processImport"
+    >
+      <div class="space-y-6">
+        <div class="p-4 bg-amber-50 border border-amber-100 rounded-2xl">
+          <p class="text-[11px] font-bold text-amber-700 uppercase tracking-wider mb-1">Petunjuk Format</p>
+          <p class="text-xs text-amber-600 leading-relaxed">
+            Copy kolom dari Excel (<b>Nama, NIUP, L/P, Kelas, Jurusan</b>) lalu paste di bawah.
+            Satu baris untuk satu siswa. Pemisah otomatis terdeteksi (Tab atau Koma).
+          </p>
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-black text-surface-400 uppercase tracking-widest mb-2 px-1">Tempel Data Di Sini</label>
+          <textarea
+            v-model="importRawData"
+            rows="10"
+            class="w-full px-5 py-4 bg-surface-100/50 border border-surface-200/60 rounded-2xl text-surface-900 font-medium text-sm focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 transition-all font-mono"
+            placeholder="Contoh:&#10;Ahmad Dahlan	1222071	L	X RPL&#10;Siti Aminah	1222072	P	X TKJ"
+          ></textarea>
+        </div>
+
+        <div v-if="importPreview.length > 0" class="space-y-3">
+          <p class="text-[11px] font-black text-surface-400 uppercase tracking-widest px-1">Pratinjau ({{ importPreview.length }} Siswa)</p>
+          <div class="max-h-48 overflow-y-auto border border-surface-200 rounded-xl divide-y divide-surface-100">
+            <div v-for="(p, i) in importPreview" :key="i" class="px-4 py-2 text-[11px] flex justify-between items-center">
+              <span class="font-bold text-surface-900">{{ p.name }}</span>
+              <span class="text-surface-500">{{ p.niup }} | {{ p.gender }} | {{ p.class }}</span>
+            </div>
+          </div>
         </div>
       </div>
     </Modal>
@@ -197,7 +283,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed, watch } from 'vue'
 import { useStudentStore } from '../../stores/student'
 import { useFormValidation } from '../../composables/useFormValidation'
 import type { Student } from '../../types'
@@ -205,30 +291,104 @@ import Input from '../../components/ui/Input.vue'
 import Button from '../../components/ui/Button.vue'
 import Modal from '../../components/ui/Modal.vue'
 import { useAuthStore } from '../../stores/auth'
-import classesData from '../../data/classes.json'
+
 
 const studentStore = useStudentStore()
 const authStore = useAuthStore()
 const showModal = ref(false)
 const editingStudent = ref<Student | null>(null)
-const classesList = ref(classesData.classes)
+
+
+const showImportModal = ref(false)
+const importRawData = ref('')
+const importPreview = ref<any[]>([])
+
+const genderFilter = ref('')
+const statusFilter = ref('')
+const levelFilter = ref('')
+const majorFilter = ref('')
+
+const allLevels = computed(() => {
+  const uniqueLevels = new Set(
+    studentStore.students
+      .filter(s => s && s.class)
+      .map(s => s.class.split(' ')[0])
+  )
+  return Array.from(uniqueLevels).filter(Boolean).sort()
+})
+
+const allMajors = computed(() => {
+  const uniqueMajors = new Set(
+    studentStore.students
+      .filter(s => s && s.class)
+      .map(s => s.class.split(' ').slice(1).join(' '))
+  )
+  return Array.from(uniqueMajors).filter(Boolean).sort()
+})
+
+const filteredStudentsList = computed(() => {
+  return studentStore.filteredStudents.filter(s => {
+    const matchGender = !genderFilter.value || s.gender === genderFilter.value
+    const matchStatus = !statusFilter.value || s.status === statusFilter.value
+    const matchLevel = !levelFilter.value || s.class.startsWith(levelFilter.value + ' ')
+    const matchMajor = !majorFilter.value || s.class.includes(majorFilter.value)
+    return matchGender && matchStatus && matchLevel && matchMajor
+  })
+})
 
 const formData = reactive({
   name: '',
-  nisn: '',
+  niup: '',
   class: '',
-  email: '',
-  phone: '',
-  address: ''
+  status: 'siswa aktif' as 'siswa aktif' | 'siswa berhenti' | 'siswa lulus',
+  gender: 'L' as 'L' | 'P'
+})
+
+// Watch raw data to generate preview
+watch(importRawData, (val) => {
+  if (!val.trim()) {
+    importPreview.value = []
+    return
+  }
+
+  const lines = val.trim().split('\n')
+  const parsed = lines.map(line => {
+    // Try tab first (Excel paste), then comma, then semicolon
+    let parts = line.split('\t')
+    if (parts.length < 2) parts = line.split(',')
+    if (parts.length < 2) parts = line.split(';')
+    
+    if (parts.length >= 4) {
+      const name = parts[0]?.trim()
+      const niup = parts[1]?.trim()
+      const gender = parts[2]?.trim().toUpperCase().startsWith('P') ? 'P' : 'L'
+      let className = parts[3]?.trim()
+      
+      // If there's a 5th column (Major/Jurusan), combine it
+      if (parts.length >= 5 && parts[4]?.trim()) {
+        className = `${className} ${parts[4].trim()}`
+      }
+
+      return {
+        name,
+        niup,
+        gender,
+        class: className,
+        status: 'siswa aktif'
+      }
+    }
+    return null
+  }).filter(p => p !== null)
+
+  importPreview.value = parsed
 })
 
 const { errors: formErrors, validateForm, clearErrors } = useFormValidation({
   name: { required: true },
-  nisn: { required: true },
+  niup: { required: true },
   class: { required: true },
-  email: { required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
-  phone: {},
-  address: {}
+  status: { required: true },
+  gender: { required: true }
 })
 
 const openAddModal = () => {
@@ -240,11 +400,10 @@ const openAddModal = () => {
 const clearForm = () => {
   clearErrors()
   formData.name = ''
-  formData.nisn = ''
+  formData.niup = ''
   formData.class = ''
-  formData.email = ''
-  formData.phone = ''
-  formData.address = ''
+  formData.status = 'siswa aktif'
+  formData.gender = 'L'
 }
 
 const editStudent = (student: Student) => {
@@ -276,5 +435,28 @@ const deleteStudent = (id: string) => {
 const closeModal = () => {
   showModal.value = false
   clearForm()
+}
+
+const openImportModal = () => {
+  importRawData.value = ''
+  importPreview.value = []
+  showImportModal.value = true
+}
+
+const closeImportModal = () => {
+  showImportModal.value = false
+}
+
+const processImport = () => {
+  if (importPreview.value.length === 0) {
+    alert('Tidak ada data valid yang terdeteksi.')
+    return
+  }
+
+  if (confirm(`Impor ${importPreview.value.length} siswa ke database?`)) {
+    studentStore.bulkAddStudents(importPreview.value)
+    closeImportModal()
+    alert('Berhasil mengimpor data siswa.')
+  }
 }
 </script>

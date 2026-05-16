@@ -1,164 +1,203 @@
 <template>
-  <div class="space-y-12 pb-20">
-    <!-- Header Section -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-8">
+  <div class="space-y-6 pb-20">
+    <!-- Page Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
-        <h1 class="text-4xl font-black text-white tracking-tight">Manajemen Kelas</h1>
-        <p class="text-slate-500 mt-2 flex items-center gap-2 font-medium">
-          <span class="flex h-2 w-2 rounded-full bg-accent-cyan shadow-glow-cyan animate-pulse"></span>
-          {{ classes.length }} Kelas terdaftar dalam ekosistem
-        </p>
+        <h1 class="text-xl font-bold text-slate-900 tracking-tight">Manajemen Kelas</h1>
+        <p class="text-sm text-slate-500 mt-0.5">Kelola klaster kelas dan program keahlian siswa.</p>
       </div>
-      <Button variant="primary" @click="openAddModal" class="shadow-glow-violet bg-gradient-to-r from-accent-violet to-fuchsia-600 border-none px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs">
-        <span class="flex items-center gap-2">
-          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-          </svg>
-          Tambah Kelas
-        </span>
+      <Button variant="primary" @click="openAddModal">
+        <svg class="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
+        </svg>
+        Tambah Kelas
       </Button>
     </div>
 
+    <!-- Filters Bar -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 items-end bg-white p-6 rounded-3xl border border-slate-200/60 shadow-sm">
+      <div class="md:col-span-3">
+        <Input
+          v-model="searchQuery"
+          label="Cari Kelas"
+          placeholder="Cari nama kelas atau wali kelas..."
+        />
+      </div>
+      <div>
+        <label class="clean-label">Program Keahlian</label>
+        <select v-model="filterMajor" class="clean-input appearance-none cursor-pointer">
+          <option value="">Semua Program</option>
+          <option value="Multimedia (MM)">Multimedia (MM)</option>
+          <option value="Rekayasa Perangkat Lunak (RPL)">Rekayasa Perangkat Lunak (RPL)</option>
+          <option value="Teknik Komputer & Jaringan (TKJ)">Teknik Komputer & Jaringan (TKJ)</option>
+          <option value="Tata Busana (TB)">Tata Busana (TB)</option>
+          <option value="Teknik Pembangkit Tenaga Listrik (PJB CLASS)">Teknik Pembangkit Tenaga Listrik (PJB CLASS)</option>
+          <option value="Desain Komunikasi Visual (DKV)">Desain Komunikasi Visual (DKV)</option>
+          <option value="Desain & Produksi Busana (DPB)">Desain & Produksi Busana (DPB)</option>
+          <option value="Agrobisnis Pengolahan Hasil Perikanan (APHPi)">Agrobisnis Pengolahan Hasil Perikanan (APHPi)</option>
+          <option value="Perikanan">Perikanan</option>
+        </select>
+      </div>
+    </div>
+
     <!-- Classes Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+    <div v-if="filteredClasses.length === 0" class="clean-card py-20 text-center">
+      <p class="text-slate-400 font-medium">Data kelas tidak ditemukan.</p>
+    </div>
+
+    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       <div
-        v-for="cls in classes"
+        v-for="cls in filteredClasses"
         :key="cls.id"
-        class="group relative"
+        class="clean-card group flex flex-col h-full"
       >
-        <!-- Card Glow Effect -->
-        <div class="absolute -inset-0.5 bg-gradient-to-r from-accent-cyan to-accent-violet rounded-[32px] opacity-0 group-hover:opacity-20 transition duration-700 blur"></div>
-        
-        <div class="relative glass-card h-full flex flex-col border-white/5 group-hover:border-white/20 transition-all duration-500 overflow-hidden">
-          <!-- Card Header Decor -->
-          <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-white/10 to-transparent rounded-bl-[100px] pointer-events-none opacity-20"></div>
-
-          <div class="p-8 space-y-6 flex-1">
-            <div class="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 group-hover:border-accent-cyan/30 transition-all duration-500">
-              <svg class="w-8 h-8 text-slate-400 group-hover:neon-text-cyan transition-all duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-              </svg>
-            </div>
-
-            <div>
-              <h3 class="text-3xl font-black text-white tracking-tighter group-hover:text-accent-cyan transition-colors">{{ cls.name }}</h3>
-              <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mt-1">{{ cls.major }}</p>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4 pt-2">
-              <div class="bg-white/5 p-3 rounded-xl border border-white/5">
-                <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest leading-none">Wali Kelas</p>
-                <p class="text-xs font-bold text-slate-300 mt-2 truncate">{{ cls.teacher }}</p>
-              </div>
-              <div class="bg-white/5 p-3 rounded-xl border border-white/5">
-                <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest leading-none">Kapasitas</p>
-                <p class="text-xs font-bold text-slate-300 mt-2">{{ cls.capacity }} Siswa</p>
-              </div>
-            </div>
+        <div class="p-6 flex-1 flex flex-col">
+          <div class="mb-4">
+            <h3 class="text-xl font-bold text-slate-900 tracking-tight group-hover:text-indigo-600 transition-colors">{{ cls.name }}</h3>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">{{ cls.major }}</p>
           </div>
 
-          <!-- Card Footer Actions -->
-          <div class="px-8 py-6 bg-white/5 border-t border-white/5 flex items-center justify-between">
-            <RouterLink to="/schedule" class="text-xs font-black text-accent-cyan uppercase tracking-widest hover:neon-text-cyan transition-all flex items-center gap-2">
-              Lihat Jadwal
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4 4H3" />
-              </svg>
-            </RouterLink>
-            <div class="flex gap-1">
-              <button @click="openEditModal(cls)" class="p-2 text-slate-500 hover:text-white transition-colors">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                </svg>
-              </button>
-              <button @click="deleteClass(cls.id)" class="p-2 text-slate-500 hover:text-rose-500 transition-colors">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-              </button>
+          <div class="grid grid-cols-1 gap-3 mt-auto">
+            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+              <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-none">Wali Kelas</p>
+              <p class="text-xs font-semibold text-slate-700 mt-2 truncate">{{ cls.teacher }}</p>
             </div>
+            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+              <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-none">Kapasitas</p>
+              <p class="text-xs font-semibold text-slate-700 mt-2">{{ cls.capacity }} Siswa Terdaftar</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Footer -->
+        <div class="px-6 py-4 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between">
+          <RouterLink to="/schedule" class="text-[10px] font-bold text-indigo-600 uppercase tracking-widest hover:underline flex items-center gap-1.5">
+            Jadwal
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4 4H3" />
+            </svg>
+          </RouterLink>
+          <div class="flex gap-1">
+            <button @click="openEditModal(cls)" class="p-2 text-slate-400 hover:text-indigo-600 rounded hover:bg-white transition-all">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+            </button>
+            <button @click="deleteClass(cls.id)" class="p-2 text-slate-400 hover:text-rose-500 rounded hover:bg-white transition-all">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Empty State -->
-    <div v-if="classes.length === 0" class="glass-card py-32 text-center border-white/5">
-       <div class="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-8 border border-white/10">
-          <svg class="w-12 h-12 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-          </svg>
-       </div>
-       <h3 class="text-2xl font-black text-white tracking-tight">Ekosistem Kelas Kosong</h3>
-       <p class="text-slate-500 mt-2 font-medium">Belum ada data kelas yang diinisialisasi dalam sistem ini.</p>
-    </div>
-
-    <!-- Modal remains functional with UI updates -->
+    <!-- Modal Form -->
     <Modal
       :is-open="showModal"
-      :title="editingClass ? 'Re-konfigurasi Kelas' : 'Inisialisasi Kelas Baru'"
-      confirm-text="Terapkan Perubahan"
+      :title="editingClass ? 'Edit Konfigurasi Kelas' : 'Tambah Kelas Baru'"
+      subtitle="Silakan masukkan rincian klaster kelas untuk database akademik."
+      confirm-text="Simpan Perubahan"
       @close="closeModal"
       @confirm="saveClass"
     >
-      <div class="space-y-6">
-        <Input
-          v-model="formData.name"
-          label="Identitas Kelas"
-          placeholder="Contoh: XII RPL 1"
-          required
-        />
+      <div class="space-y-4">
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-3 px-1">Program Keahlian</label>
-            <select v-model="formData.major" class="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl text-white font-bold outline-none focus:border-accent-cyan transition-all appearance-none">
-              <option value="RPL">RPL</option>
-              <option value="TKJ">TKJ</option>
-              <option value="DKV">DKV</option>
-              <option value="TPTL">TPTL</option>
+            <label class="clean-label">Tingkat Kelas</label>
+            <select v-model="formData.level" class="clean-input appearance-none cursor-pointer">
+              <option value="X">Kelas X</option>
+              <option value="XI">Kelas XI</option>
+              <option value="XII">Kelas XII</option>
+            </select>
+          </div>
+          <div>
+            <label class="clean-label">Suffix / Nomor (Opsional)</label>
+            <Input v-model="formData.suffix" placeholder="Contoh: 1 atau A" />
+          </div>
+        </div>
+
+        <div>
+          <label class="clean-label">Program Keahlian (Jurusan)</label>
+          <select v-model="formData.major" class="clean-input appearance-none cursor-pointer">
+            <option v-for="m in majors" :key="m" :value="m">{{ m }}</option>
+          </select>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="clean-label">Wali Kelas</label>
+            <select v-model="formData.teacher" class="clean-input appearance-none cursor-pointer">
+              <option value="">Pilih Wali Kelas...</option>
+              <option v-for="t in teachersData.teachers" :key="t.id" :value="t.name">
+                {{ t.name }}
+              </option>
             </select>
           </div>
           <Input
             v-model.number="formData.capacity"
             type="number"
-            label="Kapasitas Maksimal"
+            label="Kapasitas Siswa"
             placeholder="36"
             required
           />
         </div>
-        <Input
-          v-model="formData.teacher"
-          label="Wali Kelas"
-          placeholder="Nama lengkap beserta gelar"
-          required
-        />
       </div>
     </Modal>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import type { Class } from '../../types'
 import classesData from '../../data/classes.json'
+import teachersData from '../../data/teachers.json'
 import Button from '../../components/ui/Button.vue'
 import Modal from '../../components/ui/Modal.vue'
 import Input from '../../components/ui/Input.vue'
 
-const classes = ref<Class[]>(classesData.classes)
+const classes = ref<Class[]>(classesData.classes as Class[])
+const searchQuery = ref('')
+const filterMajor = ref('')
 const showModal = ref(false)
 const editingClass = ref<Class | null>(null)
+
+const filteredClasses = computed(() => {
+  return classes.value.filter(cls => {
+    const matchesSearch = !searchQuery.value || 
+      cls.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      cls.teacher.toLowerCase().includes(searchQuery.value.toLowerCase())
+    const matchesMajor = !filterMajor.value || cls.major === filterMajor.value
+    return matchesSearch && matchesMajor
+  })
+})
+
 const formData = reactive({
-  name: '',
-  major: 'RPL',
+  level: 'X',
+  major: 'Rekayasa Perangkat Lunak (RPL)',
+  suffix: '1',
   teacher: '',
   capacity: 36
 })
 
+const majors = [
+  "Multimedia (MM)",
+  "Rekayasa Perangkat Lunak (RPL)",
+  "Teknik Komputer & Jaringan (TKJ)",
+  "Tata Busana (TB)",
+  "Teknik Pembangkit Tenaga Listrik (PJB CLASS)",
+  "Desain Komunikasi Visual (DKV)",
+  "Desain & Produksi Busana (DPB)",
+  "Agrobisnis Pengolahan Hasil Perikanan (APHPi)",
+  "Perikanan"
+]
+
 const openAddModal = () => {
   editingClass.value = null
-  formData.name = ''
-  formData.major = 'RPL'
+  formData.level = 'X'
+  formData.major = 'Rekayasa Perangkat Lunak (RPL)'
+  formData.suffix = '1'
   formData.teacher = ''
   formData.capacity = 36
   showModal.value = true
@@ -175,15 +214,23 @@ const closeModal = () => {
 }
 
 const saveClass = () => {
+  const generatedName = `${formData.level} ${formData.major} ${formData.suffix}`.trim().replace(/\s+/g, ' ')
+  const finalData = {
+    name: generatedName,
+    major: formData.major,
+    teacher: formData.teacher,
+    capacity: formData.capacity
+  }
+
   if (editingClass.value) {
     const index = classes.value.findIndex(c => c.id === editingClass.value?.id)
     if (index !== -1) {
-      classes.value[index] = { ...editingClass.value, ...formData }
+      classes.value[index] = { ...editingClass.value, ...finalData }
     }
   } else {
     classes.value.push({
       id: `class-${Date.now()}`,
-      ...formData
+      ...finalData
     })
   }
   closeModal()
@@ -214,4 +261,3 @@ const deleteClass = (id: string) => {
   }
 }
 </script>
-

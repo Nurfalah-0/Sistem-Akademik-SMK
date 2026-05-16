@@ -19,26 +19,36 @@
       </Button>
     </div>
 
-    <!-- Category Filter Chips -->
-    <div class="flex flex-wrap items-center gap-3 bg-white p-3 rounded-[28px] border border-slate-200/60 shadow-sm inline-flex">
-      <button
-        @click="selectedCategory = ''"
-        class="px-6 py-2.5 rounded-2xl text-xs font-bold uppercase tracking-widest transition-all duration-300"
-        :class="!selectedCategory ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50'"
-      >
-        Semua
-      </button>
-      <button
-        v-for="cat in categories"
-        :key="cat"
-        @click="selectedCategory = cat"
-        class="px-6 py-2.5 rounded-2xl text-xs font-bold uppercase tracking-widest transition-all duration-300 border"
-        :class="selectedCategory === cat 
-          ? getCategoryActiveClass(cat)
-          : 'text-slate-400 border-transparent hover:bg-slate-50'"
-      >
-        {{ getCategoryLabel(cat) }}
-      </button>
+    <!-- Filters Bar -->
+    <div class="flex flex-col lg:flex-row lg:items-center gap-6 bg-white p-6 rounded-[32px] border border-slate-200/60 shadow-sm">
+      <div class="flex-1">
+        <Input
+          v-model="searchQuery"
+          placeholder="Cari pengumuman atau informasi..."
+          label="Pencarian"
+        />
+      </div>
+      
+      <div class="flex flex-wrap items-center gap-2">
+        <button
+          @click="selectedCategory = ''"
+          class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.1em] transition-all duration-300 border"
+          :class="!selectedCategory ? 'bg-indigo-600 text-white border-indigo-600 shadow-md shadow-indigo-100' : 'text-slate-400 border-transparent hover:bg-slate-50'"
+        >
+          Semua
+        </button>
+        <button
+          v-for="cat in categories"
+          :key="cat"
+          @click="selectedCategory = cat"
+          class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.1em] transition-all duration-300 border"
+          :class="selectedCategory === cat 
+            ? getCategoryActiveClass(cat)
+            : 'text-slate-400 border-transparent hover:bg-slate-50'"
+        >
+          {{ getCategoryLabel(cat) }}
+        </button>
+      </div>
     </div>
 
     <!-- Announcements Grid/List -->
@@ -175,6 +185,7 @@ const announcements = ref<Announcement[]>(announcementsData.announcements as Ann
 const showModal = ref(false)
 const editingAnnouncement = ref<Announcement | null>(null)
 const selectedCategory = ref('')
+const searchQuery = ref('')
 const categories = ['info', 'warning', 'urgent']
 
 const formData = reactive({
@@ -193,6 +204,14 @@ const filteredAnnouncements = computed(() => {
 
   if (selectedCategory.value) {
     filtered = filtered.filter(a => a.category === selectedCategory.value)
+  }
+
+  if (searchQuery.value) {
+    const q = searchQuery.value.toLowerCase()
+    filtered = filtered.filter(a => 
+      a.title.toLowerCase().includes(q) || 
+      a.content.toLowerCase().includes(q)
+    )
   }
 
   return filtered.sort(

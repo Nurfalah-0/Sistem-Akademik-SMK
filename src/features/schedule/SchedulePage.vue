@@ -9,17 +9,42 @@
           Penjadwalan aktivitas belajar mengajar SMK
         </p>
       </div>
-      <Button v-if="isAdmin" variant="primary" size="lg" @click="openAddModal">
-        <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-        Tambah Jadwal
-      </Button>
+      <div v-if="isAdmin" class="flex gap-3">
+        <Button variant="primary" size="lg" @click="openAddModal">
+          <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          Tambah Jadwal
+        </Button>
+      </div>
+    </div>
+
+    <!-- Filters Bar -->
+    <div class="premium-card p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div class="flex-1 max-w-md">
+        <label class="block text-[11px] font-black text-surface-400 uppercase tracking-widest mb-2 px-1">Filter Kelas</label>
+        <div class="relative">
+          <select
+            v-model="selectedClassFilter"
+            class="w-full pl-12 pr-5 py-3.5 bg-surface-100/50 border border-surface-200/60 rounded-2xl text-surface-900 font-bold focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 transition-all appearance-none cursor-pointer"
+          >
+            <option value="">Semua Kelas</option>
+            <option v-for="c in classes" :key="c" :value="c">{{ c }}</option>
+          </select>
+          <svg class="w-5 h-5 text-surface-400 absolute left-4 top-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+          </svg>
+        </div>
+      </div>
+      <div v-if="selectedClassFilter" class="text-right">
+        <p class="text-[10px] font-black text-surface-400 uppercase tracking-widest">Menampilkan Jadwal</p>
+        <p class="text-lg font-black text-brand-600 tracking-tight">Kelas {{ selectedClassFilter }}</p>
+      </div>
     </div>
 
     <!-- Schedule by Classes -->
     <div class="space-y-12">
-      <div v-for="className in classes" :key="className" class="space-y-6">
+      <div v-for="className in filteredClasses" :key="className" class="space-y-6">
         <div class="flex items-center gap-4 px-2">
           <div class="h-8 w-1.5 bg-brand-600 rounded-full"></div>
           <h2 class="text-xl font-black text-surface-900 tracking-tight">Kelas {{ className }}</h2>
@@ -175,10 +200,16 @@ const authStore = useAuthStore()
 const isAdmin = computed(() => authStore.user?.role === 'admin')
 
 const schedules = ref<Schedule[]>(schedulesData.schedules)
-const teachers = ref<Teacher[]>(teachersData.teachers)
-const classesList = ref<Class[]>(classesData.classes)
+const teachers = ref<Teacher[]>(teachersData.teachers as Teacher[])
+const classesList = ref<Class[]>(classesData.classes as Class[])
+const selectedClassFilter = ref('')
 
 const classes = computed(() => classesList.value.map(c => c.name))
+
+const filteredClasses = computed(() => {
+  if (!selectedClassFilter.value) return classes.value
+  return [selectedClassFilter.value]
+})
 
 const getSchedulesByClass = (className: string) => {
   return schedules.value.filter(s => s.class === className)

@@ -28,9 +28,9 @@
             class="w-full pl-12 pr-5 py-3.5 bg-surface-100/50 border border-surface-200/60 rounded-2xl text-surface-900 font-bold focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 transition-all appearance-none cursor-pointer"
           >
             <option value="">Semua Kelas</option>
-            <option value="XII-A">Kelas XII-A</option>
-            <option value="XI-B">Kelas XI-B</option>
-            <option value="X-C">Kelas X-C</option>
+            <option v-for="c in classesList" :key="c.id" :value="c.name">
+              Kelas {{ c.name }}
+            </option>
           </select>
           <svg class="w-5 h-5 text-surface-400 absolute left-4 top-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
@@ -230,9 +230,10 @@
 <script setup lang="ts">
 import { ref, computed, reactive } from 'vue'
 import { useAuthStore } from '../../stores/auth'
-import type { Grade, Student } from '../../types'
+import type { Grade, Student, Class } from '../../types'
 import gradesData from '../../data/grades.json'
 import studentsData from '../../data/students.json'
+import classesData from '../../data/classes.json'
 import Button from '../../components/ui/Button.vue'
 import Modal from '../../components/ui/Modal.vue'
 import Input from '../../components/ui/Input.vue'
@@ -241,7 +242,8 @@ const authStore = useAuthStore()
 const canEdit = computed(() => ['admin', 'guru'].includes(authStore.user?.role || ''))
 
 const grades = ref<Grade[]>(gradesData.grades)
-const students = ref<Student[]>(studentsData.students)
+const students = ref<Student[]>(studentsData.students as Student[])
+const classesList = ref<Class[]>(classesData.classes as Class[])
 const selectedClass = ref('')
 const selectedSubject = ref('')
 const filteredGrades = ref<Grade[]>(gradesData.grades)

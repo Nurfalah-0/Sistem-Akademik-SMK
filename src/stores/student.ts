@@ -4,7 +4,7 @@ import type { Student } from '../types'
 import studentsData from '../data/students.json'
 
 export const useStudentStore = defineStore('student', () => {
-  const students = ref<Student[]>(studentsData.students)
+  const students = ref<Student[]>(studentsData.students as Student[])
   const loading = ref(false)
   const error = ref<string | null>(null)
   const searchQuery = ref('')
@@ -19,8 +19,7 @@ export const useStudentStore = defineStore('student', () => {
       filtered = filtered.filter(
         s =>
           s.name.toLowerCase().includes(query) ||
-          s.nisn.includes(query) ||
-          s.email.toLowerCase().includes(query)
+          s.niup.includes(query)
       )
     }
 
@@ -35,6 +34,26 @@ export const useStudentStore = defineStore('student', () => {
   const classes = computed(() => {
     const uniqueClasses = new Set(students.value.map(s => s.class))
     return Array.from(uniqueClasses).sort()
+  })
+
+  const levels = computed(() => {
+    if (!students.value) return []
+    const uniqueLevels = new Set(
+      students.value
+        .filter(s => s && s.class)
+        .map(s => s.class.split(' ')[0])
+    )
+    return Array.from(uniqueLevels).filter(Boolean).sort()
+  })
+
+  const majors = computed(() => {
+    if (!students.value) return []
+    const uniqueMajors = new Set(
+      students.value
+        .filter(s => s && s.class)
+        .map(s => s.class.split(' ').slice(1).join(' '))
+    )
+    return Array.from(uniqueMajors).filter(Boolean).sort()
   })
 
   const getStudentById = (id: string): Student | undefined => {
@@ -94,6 +113,16 @@ export const useStudentStore = defineStore('student', () => {
     classFilter.value = classValue
   }
 
+  const bulkAddStudents = (newStudents: Omit<Student, 'id'>[]) => {
+    const studentsWithIds = newStudents.map(s => ({
+      ...s,
+      id: `std-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+    }))
+    students.value.push(...studentsWithIds)
+    saveStudentsToFile()
+    return studentsWithIds
+  }
+
   return {
     students,
     loading,
@@ -102,8 +131,11 @@ export const useStudentStore = defineStore('student', () => {
     classFilter,
     filteredStudents,
     classes,
+    levels,
+    majors,
     getStudentById,
     addStudent,
+    bulkAddStudents,
     updateStudent,
     deleteStudent,
     setSearch,
