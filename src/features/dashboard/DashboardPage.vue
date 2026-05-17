@@ -108,7 +108,7 @@
         <div class="bg-indigo-600 rounded-card p-6 text-white shadow-lg shadow-indigo-200">
           <h3 class="font-bold text-sm uppercase tracking-wider mb-2">Butuh Bantuan?</h3>
           <p class="text-xs text-indigo-100 leading-relaxed mb-6">Jika Anda mengalami kendala teknis saat menggunakan sistem akademik ini, silakan hubungi tim dukungan kami.</p>
-          <button class="w-full py-2.5 bg-white text-indigo-600 rounded font-bold text-[11px] uppercase tracking-widest hover:bg-indigo-50 transition-colors">Hubungi IT Support</button>
+          <a href="https://wa.me/6282189725591" target="_blank" class="block text-center w-full py-2.5 bg-white text-indigo-600 rounded font-bold text-[11px] uppercase tracking-widest hover:bg-indigo-50 transition-colors">Hubungi IT Support</a>
         </div>
       </div>
     </div>
